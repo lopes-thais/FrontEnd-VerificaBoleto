@@ -1,0 +1,250 @@
+/* Reset básico para limpar as margens do navegador */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;            
+    padding: 20px 20px; 
+    padding-left: 8%;
+    padding-right: 8%;
+}
+
+
+nav {
+    display: none; /* Esconde no mobile */
+}
+
+@media (min-width: 768px) {
+    nav {
+        display: flex;
+    }
+
+    nav a {
+        color: rgb(121, 4, 4);
+        text-decoration: none;
+        margin-left: 30px;
+        font-weight: 500;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        color: rgb(121, 4, 4);
+
+        text-decoration: none;
+        transition: all 0.3s ease; /* suaviza a mudança */
+        display: inline-block;   
+    }
+
+    nav a:hover {
+        color: rgb(241, 19, 56); /* cor de destaque ao passar o mouse */
+        transform: scale(1.1); /* aumenta um pouco o tamanho do link */
+    }
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 900;
+    
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    color: rgb(121, 4, 4);
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-color: rgb(255, 255, 255);
+}
+
+main {
+    max-width: 1200px;   /* largura máxima do container */
+    margin: 0 auto;      /* centraliza o container */
+    padding: 0 20px;
+}
+
+
+.banner {
+    width: 100%;         /* ocupa toda a largura do container */
+    margin: 0;           /* não centraliza sozinho */
+    padding: 30px;
+    border-radius: 20px;
+
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    
+    background-color: rgb(121, 4, 4);
+    box-shadow: 0 8px 25px #46464662;
+}
+
+.banner h2 {
+    color: white;
+    font-size: clamp(24px, 5vw, 40px); 
+    margin-bottom: 15px; 
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.banner p {
+    color: white;
+    font-size: clamp(16px, 3vw, 20px); 
+    max-width: 800px; 
+    margin: 0 auto; 
+}
+
+section {
+    max-width: 500px;    /* menor que o banner */
+    margin-top: 30px;    /* espaço abaixo do banner */
+    margin-left: 0;      /* alinha à esquerda do container */
+}
+
+.formulario {
+    
+    border-width: 2px;
+    
+    max-width: 500px;
+    padding: 22px;          
+    border: 2px solid rgb(121, 4, 4);
+    border-top: none;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 8px 25px #46464662;
+    padding-bottom: 30px;
+}
+
+.botoes{
+    display: flex;
+    width: 100%;
+}
+
+.botoes button {
+    padding: 15px;
+
+    border: 2px solid #c01a30;
+    background-color: #c01a30;
+    color: white;
+    flex: 1;
+    border-bottom: none;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+   
+    box-shadow:  0 -4px 10px #46464662;
+    
+}
+
+.botoes:hover button:not(:hover) {
+    background-color: rgb(121, 4, 4);
+    border-color: rgb(121, 4, 4);
+    color: white;
+}
+
+.botoes button.ativo {
+    background-color: rgb(121, 4, 4);
+    color: white;  
+    border-color: rgb(121, 4, 4);
+}
+
+.botoes button:hover {
+    background-color: #D21438;
+    color: white;
+    border-color: #D21438;
+}
+
+.botoes button:first-child {
+    border-top-left-radius: 20px;
+}
+
+.botoes button:last-child {
+    border-top-right-radius: 20px;
+}
+
+
+.formulario input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.formulario input:hover {
+    border-color: #c01a30;
+    box-shadow: 0 0 5px rgba(182, 21, 42, 0.404);
+}
+
+input:focus {
+    border-color: #c01a30;
+    box-shadow: 0 0 3px rgba(192, 26, 48, 0.2);
+    outline: none;
+}
+
+.btn-verificar{
+    padding: 15px;
+
+    border: 2px solid #c01a30;
+    background-color: #c01a30;
+    color: white;
+    flex: 1;
+    border-bottom: none;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+   
+    box-shadow:  0 4px 10px #46464662;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+
+.btn-verificar:hover{
+    border-color: #c01a30;
+    box-shadow: 0 0 5px rgba(182, 21, 42, 0.404);
+    transform: scale(1.01); /* aumenta um pouco o tamanho do link */
+    
+}
+
+#conteudo-pdf {
+    text-align: center;
+}
+
+#nomeArquivo {
+    font-size: 14px;
+    color: #555;
+}
+
+#infoArquivo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#iconeSucesso {
+    color: green;
+    display: none; /* começa escondido */
+    font-weight: bold;
+    size: 5px;
+}
+
+#btnRemover {
+    cursor: pointer;
+    display: none; /* só aparece quando tiver arquivo */
+}
+
+#btnRemover:hover {
+    transform: scale(1.2);
+}

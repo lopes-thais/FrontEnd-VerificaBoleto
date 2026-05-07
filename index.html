@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifica Boleto</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css">
+
+    <style src="css/style.css"></style>
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Verifica Boleto</h1>
+            <nav>                
+                    <a href="#">Verificar</a>
+                    <a href="#">Segurança</a>
+                    <a href="#">Sobre</a>
+            </nav>
+
+    </header>
+
+    <main>
+        <div class="banner">
+            <h2>Pague seus boletos com segurança!</h2>
+            <p>Verifique a autenticidade do boleto, confira o beneficiário e detecte fraudes antes de efetuar o pagamento.</p>
+        </div>
+
+        <section>
+
+            <div class="botoes">
+
+                    <button class="btn ativo" onclick="mostrarCodigo(this)">Digitar Código de Barras</button>
+                    <button class="btn" onclick="mostrarPdf(this)">Inserir Arquivo PDF</button>
+                    
+                </div>
+
+            <div class="formulario">
+                
+                <div id="conteudo-codigo">
+                    <p>Digite o código de barras:</p>
+                    <input type="text" placeholder="Ex: 00190.00009 02626.560004 00000.000000 1 00000000000000" />
+
+                    <br><br>
+
+                    <p>Digite o CPF/CNPJ do beneficiário:</p>
+                    <input type="text" placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-90"  />
+
+                    <br><br>
+
+                    <p>Digite a data de vencimento:</p>
+                    <input type="text" placeholder="Ex: dd/mm/aaaa" />
+                    <br><br>
+
+                    <p>Digite o valor do boleto:</p>
+                    <input type="text" placeholder="Ex: R$ 123,45" />
+
+                    <br><br>
+                    
+                    <button class="btn-verificar" onclick="verificar">Verificar Boleto</button>
+                </div>
+
+                <div id="conteudo-pdf" style="display:none;">
+
+                    <h3>Clique no ícone para inserir o arquivo PDF:</h3>
+                    <input type="file" id="fileInput" hidden>
+                    <img src="iconepdf.png" id="btnUpload" style="cursor: pointer; width: 100px;">
+                    <p id="nomeArquivo">Nenhum arquivo selecionado</p>
+
+                    <span id="iconeSucesso">✔</span>
+                    <span id="btnRemover">🗑</span>
+                    
+                    <h3>Dados extraídos:</h3>
+                </div>
+            </div>
+            
+        </section>
+    </main>
+
+    <script src="script/script.js"></script>
+</body>
+</html>
