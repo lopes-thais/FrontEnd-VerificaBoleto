@@ -10,28 +10,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css">
 
-    <style src="css/style.css"></style>
 </head>
 
 <body>
 
     <header>
 
-        <h1>Verifica Boleto</h1>
+        <h1 id="inicio">Verifica Boleto</h1>
             <nav>                
-                    <a href="#">Verificar</a>
-                    <a href="#">Segurança</a>
-                    <a href="#">Sobre</a>
+                    <a href="#verificar" aria-label="Ir para formulário de verificação de boleto">Verificar</a>
+                    <a href="#" aria-label="Ir para vídeo sobre pagamentos de boleto com segurança">Segurança</a>
+                    <a href="#sobre" aria-label="Ir para seção sobre o projeto">Sobre</a>
             </nav>
 
     </header>
 
     <main>
+        
         <div class="banner">
             <h2>Pague seus boletos com segurança!</h2>
             <p>Verifique a autenticidade do boleto, confira o beneficiário e detecte fraudes antes de efetuar o pagamento.</p>
         </div>
 
+        <div class="conteudo">
         <section>
 
             <div class="botoes">
@@ -39,49 +40,189 @@
                     <button class="btn ativo" onclick="mostrarCodigo(this)">Digitar Código de Barras</button>
                     <button class="btn" onclick="mostrarPdf(this)">Inserir Arquivo PDF</button>
                     
-                </div>
+            </div>
 
-            <div class="formulario">
+            <div id="verificar">
                 
                 <div id="conteudo-codigo">
-                    <p>Digite o código de barras:</p>
-                    <input type="text" placeholder="Ex: 00190.00009 02626.560004 00000.000000 1 00000000000000" />
+                    <label for="codigoBarras">Digite o código de barras:</label>
+                <input 
+                    type="text" 
+                    id="codigoBarras"
+                    placeholder="Ex: 00190.00009 02626.560004 00000.000000 1 00000000000000" 
+                />
 
-                    <br><br>
+            <br><br>
 
-                    <p>Digite o CPF/CNPJ do beneficiário:</p>
-                    <input type="text" placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-90"  />
+            <label for="cpfCnpj">Digite o CPF/CNPJ do beneficiário:</label>
+            <input 
+                type="text" 
+                id="cpfCnpj"
+                placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-90"  
+            />
 
-                    <br><br>
+            <br><br>
 
-                    <p>Digite a data de vencimento:</p>
-                    <input type="text" placeholder="Ex: dd/mm/aaaa" />
-                    <br><br>
+            <label for="vencimento">Digite a data de vencimento:</label>
+            <input 
+                type="text" 
+                id="vencimento"
+                placeholder="Ex: dd/mm/aaaa" 
+            />
 
-                    <p>Digite o valor do boleto:</p>
-                    <input type="text" placeholder="Ex: R$ 123,45" />
+            <br><br>
 
-                    <br><br>
+            <label for="valorBoleto">Digite o valor do boleto:</label>
+            <input 
+                type="text" 
+                id="valorBoleto"
+                placeholder="Ex: R$ 123,45" 
+            />
+
+            <br><br>
                     
-                    <button class="btn-verificar" onclick="verificar">Verificar Boleto</button>
-                </div>
+                <button class="btn-verificar" onclick="verificar()">Verificar Boleto</button>
+            </div>
 
                 <div id="conteudo-pdf" style="display:none;">
 
-                    <h3>Clique no ícone para inserir o arquivo PDF:</h3>
-                    <input type="file" id="fileInput" hidden>
-                    <img src="iconepdf.png" id="btnUpload" style="cursor: pointer; width: 100px;">
-                    <p id="nomeArquivo">Nenhum arquivo selecionado</p>
+                    <label for="fileInput" class="box-upload">
+                        
+                        <img src="./imagens/icone-upload.png" alt="Icone de upload" id="icone-upload">
+                        <input type="file" id="fileInput" hidden>
 
-                    <span id="iconeSucesso">✔</span>
-                    <span id="btnRemover">🗑</span>
+                        <p>Clique para inserir o arquivo PDF</p>
+
+                        <div class="info-arquivo">
+                            
+                            <p id="nomeArquivo">Nenhum arquivo selecionado</p>                         
+
+                            <div class="area-remover">
+                                <button id="btnRemover" aria-label="Remover arquivo">
+                                    <img src="./imagens/btn-remover.PNG" alt="">
+                                </button>
+                            </div>
+                        </div>                        
+                        
+                    </label>        
                     
-                    <h3>Dados extraídos:</h3>
+
+                    <div id="dados-extraidos" style="display:block;">
+
+                        <h3>Dados extraídos:</h3>
+
+                        <div class="resultado-item">
+                            <span>Linha digitável:</span>
+                            <span id="linhaDigitavel"></span>
+                        </div>
+
+                        <div class="resultado-item">
+                            <span>Valor:</span>
+                            <span id="valorBoleto"></span>
+                        </div>
+
+                        <div class="resultado-item">
+                            <span>Vencimento:</span>
+                            <span id="vencimento"></span>
+                        </div>
+
+                        <div class="resultado-item">
+                            <span>CNPJ Beneficiário:</span>
+                            <span id="cnpj"></span>
+                        </div>
+
+                        <button class="btn-verificar" onclick="verificar">Verificar Boleto</button>
+
+                    </div>
+
+                    <button onclick="mostrarResultado('verdadeiro')"></button>
+
                 </div>
             </div>
             
         </section>
+
+        <aside id="painelResultado" role="status" aria-live="polite">
+
+            <h3>Onde encontrar as informações no boleto</h3>
+            <p>Veja onde encontrar cada informação importante para o pagamento</p>
+                       
+            <img src="./imagens/banner-informacoes.png" alt="Exemplo mostrando onde encontrar as informações no boleto">           
+
+            <div class="dica">   
+
+                <img src="./imagens/icone-seguranca.png" alt="" id="icone-seguranca">
+
+                <div class="texto-dica">
+
+                    <h4>DICA DE SEGURANÇA</h4>
+                <p>Sempre confira os dados do beneficiário antes de realizar o pagamento.</p>
+
+                </div>
+                
+            </div>
+
+        </aside>   
+
+        </div>
+
+    <div id="sobre">
+        <section>            
+        
+            <h2>Tecnologia bancária ao seu alcance!</h2>
+            <p>Aplicamos os mesmos algoritmos usados pelos bancos para validar boletos.</p>
+            
+        </div>
+
+        <div class="container-cards">
+
+            <div class="card">
+                <img src="./imagens/icone-card-seguranca.png" alt="ícone de segurança">
+                <h4>Validação completa</h4>
+                <p>Verificamos código de barras, CNPJ, banco emissor, valor e data de vencimento em uma única análise.</p>
+            </div>
+
+            <div class="card">
+                <img src="./imagens/icone-card-pdf.png" alt="ícone de PDF">
+                <h4>Extração de dados em PDF</h4>
+                <p>Faça upload do boleto em PDF e nós extraímos automaticamente os campos essenciais.</p>
+            </div>
+
+            <div class="card">
+                <img src="./imagens/icone-card-raio.png" alt="ícone de raio">
+                <h4>Resultado instantâneo</h4>
+                <p>Análise em segundos com score de confiança detalhado por verificação.</p>
+            </div>
+
+            <div class="card">
+                
+                <img src="./imagens/icone-card-fraude.png" alt="ícone de fraude">
+                
+                <h4>Anti-fraude</h4>
+                <p>Detecta divergências entre os dados informados e os codificados no boleto.</p>
+            </div>
+
+        </div>
+
+        </section>
+
     </main>
+
+        <footer>
+
+                    <div class="texto-footer">
+                        <nav>
+                            <a href="#inicio">
+                                <h1>Verifica Boleto</h1>
+                            </a>                        
+                        </nav>
+                        
+                        <p>VerificaBoleto-2026 - Todos os direitos reservados.</p>
+                    </div>
+
+                    <img src="./imagens/icone-git.png" alt="Ícone do GitHub" id="icone-git">
+
+        </footer>
 
     <script src="script/script.js"></script>
 </body>
