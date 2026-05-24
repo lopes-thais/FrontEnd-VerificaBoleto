@@ -427,32 +427,137 @@ aside > img{
 
 footer{
     background-color: rgba(182, 21, 42, 0.404);
+
+    margin-top: 80px;
+
+    padding: 35px 20px 20px;
+}
+
+.footer-top{
+    max-width: 1100px;
+
+    margin: 0 auto;
+
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 
-    margin-top: 80px;
+    gap: 40px;
 }
 
-footer img{
-    width: 50px;
-    margin-top: 10px;
-    margin-right: 10px;
+.footer-esquerda{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.texto-footer p{
+.logo-footer{
+    text-decoration: none;
+    width: fit-content;
+}
+
+.logo-footer h1{
     color: rgb(121, 4, 4);
-    margin: 0;
-    padding: 20px;
+    font-size: 26px;
+    font-weight: 900;
+}
+
+.link-faq,
+.link-git{
+    color: rgb(121, 4, 4);
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: 0.2s;
+}
+
+.link-faq:hover,
+.link-git:hover{
+    color: rgb(241, 19, 56);
+
+    transform: translateX(2px);
+}
+
+.footer-direita{
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.footer-direita img{
+    width: 42px;
+    flex-shrink: 0;
+}
+
+.links-github{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.direitos{
+    text-align: center;
+
+    margin-top: 30px;
+
+    color: rgb(121, 4, 4);
+
     font-size: 14px;
+    font-weight: 500;
 }
 
-.texto-footer h1{
-    text-align: left;
-    padding: 20px;
-    margin: 0;
-}
 
+/* MOBILE */
+
+@media (max-width: 768px){
+
+    footer{
+        padding: 30px 18px 20px;
+    }
+
+    .footer-top{
+        flex-direction: column;
+
+        align-items: center;
+
+        text-align: center;
+
+        gap: 35px;
+    }
+
+    .footer-esquerda{
+        align-items: center;
+    }
+
+    .footer-direita{
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+    .links-github{
+        align-items: center;
+    }
+
+    .logo-footer h1{
+        font-size: 24px;
+    }
+
+    .footer-direita img{
+        width: 38px;
+    }
+
+    .direitos{
+        margin-top: 35px;
+
+        font-size: 13px;
+
+        line-height: 1.5;
+    }
+}
 #btnSelecionar{
     padding: 12px 20px;
     border: none;
@@ -722,3 +827,75 @@ footer img{
     font-size: 14px;
     text-align: right;
 }
+
+.link-git{   
+    color: rgb(121, 4, 4); 
+    text-decoration: none;
+}
+
+.link-git:hover {
+    color: rgb(241, 19, 56); 
+    transform: scale(1.05); 
+}
+
+.btn-limpar{
+    padding: 15px;
+
+    border: 2px solid #c01a304b;
+    background-color: #ffffff;
+    color: rgb(121, 4, 4);
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+   
+    box-shadow:  0 4px 10px #46464662; 
+    display: flex;
+    
+    justify-content: center;
+    border-radius: 10px;
+}
+
+
+.btn-limpar:hover{
+    border-color: #c01a30;
+    box-shadow: 0 0 5px rgba(182, 21, 42, 0.404);
+    transform: scale(1.01); /* aumenta um pouco o tamanho do link */
+    
+}
+
+.card:hover {
+    transform: scale(1.01); /* aumenta um pouco o tamanho do link */
+}
+
+.faq-question {
+    padding: 12px;
+    cursor: pointer;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.faq-question:hover {
+    text-shadow: #8f1b2e;
+}
+
+.faq-answer {
+    display: none;
+    padding: 12px;  
+}
+
+.titulo-faq{
+    text-align: center;
+    color: rgb(121, 4, 4);
+    font-size: 28px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+

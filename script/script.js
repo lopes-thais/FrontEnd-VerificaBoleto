@@ -96,6 +96,19 @@ input.addEventListener("change", async () => {
 
     try{
 
+        const botaoPdf = document.querySelector("#conteudo-pdf .btn-verificar");
+
+        botaoPdf.disabled = true;
+
+        botaoPdf.innerHTML = `
+            <div class="loading-btn">
+                <div class="spinner-btn"></div>
+                <span>Extraindo os dados...</span>
+            </div>
+        `;
+
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
         const resposta = await fetch("http://localhost:8080/upload", {
             method: "POST",
             body: formData
@@ -105,10 +118,32 @@ input.addEventListener("change", async () => {
 
         console.log(dados);
 
-    } catch(erro){
-        console.error("Erro ao enviar PDF:", erro);
-    }
+        document.getElementById("linhaDigitavel").textContent =
+            dados.linhaDigitavel || "Não encontrado";
 
+        document.getElementById("valorBoletoResultado").textContent =
+            dados.valor || "Não encontrado";
+
+        document.getElementById("vencimentoResultado").textContent =
+            dados.vencimento || "Não encontrado";
+
+        document.getElementById("cnpj").textContent =
+            dados.cnpj || "Não encontrado";
+
+    } catch(erro){
+
+        console.error("Erro ao enviar PDF:", erro);
+
+    } finally {
+
+        const botaoPdf = document.querySelector("#conteudo-pdf .btn-verificar");
+
+        botaoPdf.disabled = false;
+
+        botaoPdf.innerHTML = "Verificar Boleto";
+
+    }
+    
 });
 
 
@@ -183,44 +218,44 @@ function mostrarResultado(status){
 
                     <p class="recomendacao">O boleto apresenta inconsistências! Recomendamos não realizar o pagamento.</p>
                 
-<div class="resultadoLista">
+                <div class="resultadoLista">
 
-    <div class="linhaResultado">
-        <strong>Linha digitável:</strong>
-        <span class="linhaDigitavel"></span>
-    </div>
+                    <div class="linhaResultado">
+                        <strong>Linha digitável:</strong>
+                        <span class="linhaDigitavel"></span>
+                    </div>
 
-    <div class="linhaResultado">
-        <strong>Valor no documento:</strong>
-        <span class="valorDocumento">R$ 120,00</span>
-    </div>
+                    <div class="linhaResultado">
+                        <strong>Valor no documento:</strong>
+                        <span class="valorDocumento">R$ 120,00</span>
+                    </div>
 
-    <div class="linhaResultado">
-        <strong>Valor na linha digitável:</strong>
-        <span class="valorLinha">R$ 120,00</span>
-    </div>
+                    <div class="linhaResultado">
+                        <strong>Valor na linha digitável:</strong>
+                        <span class="valorLinha">R$ 120,00</span>
+                    </div>
 
-    <div class="linhaResultado">
-        <strong>Vencimento:</strong>
-        <span class="vencimento"></span>
-    </div>
+                    <div class="linhaResultado">
+                        <strong>Vencimento:</strong>
+                        <span class="vencimento"></span>
+                    </div>
 
-    <div class="linhaResultado">
-        <strong>CNPJ Beneficiário:</strong>
-        <span class="cnpj"></span>
-    </div>
+                    <div class="linhaResultado">
+                        <strong>CNPJ Beneficiário:</strong>
+                        <span class="cnpj"></span>
+                    </div>
 
-    <div class="linhaResultado">
-        <strong>Banco emissor (documento):</strong>
-        <span class="bancoDocumento"></span>
-    </div>
+                    <div class="linhaResultado">
+                        <strong>Banco emissor (documento):</strong>
+                        <span class="bancoDocumento"></span>
+                    </div>
 
-    <div class="linhaResultado">
-        <strong>Banco emissor (linha digitável):</strong>
-        <span class="bancoLinha"></span>
-    </div>
+                    <div class="linhaResultado">
+                        <strong>Banco emissor (linha digitável):</strong>
+                        <span class="bancoLinha"></span>
+                    </div>
 
-</div>
+                </div>
             <div>
         `;
 
@@ -455,3 +490,37 @@ codigoInput.addEventListener("input", () => {
 
     codigoInput.value = valor;
 });
+
+img.addEventListener("click", function (event) {
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+  
+  // posiciona o menu perto da imagem
+  const rect = img.getBoundingClientRect();
+  menu.style.left = rect.left + "px";
+  menu.style.top = rect.bottom + "px";
+});
+
+// fecha se clicar fora
+document.addEventListener("click", function (event) {
+  if (!img.contains(event.target) && !menu.contains(event.target)) {
+    menu.style.display = "none";
+  }
+});
+
+
+function limparCampos() {
+  document.getElementById("codigoBarras").value = "";
+  document.getElementById("cpfCnpj").value = "";
+  document.getElementById("vencimento").value = "";
+  document.getElementById("valorBoletoInput").value = "";
+
+//limpar mensagens de erro e bordas vermelhas
+  document.getElementById("codigoBarras").style.border = "";
+  document.getElementById("cpfCnpj").style.border = "";
+  document.getElementById("vencimento").style.border = "";
+  document.getElementById("valorBoletoInput").style.border = "";
+  document.getElementById("erroCodigo").innerText = "";
+  document.getElementById("erroCpf").innerText = "";
+  document.getElementById("erroVencimento").innerText = "";
+  document.getElementById("erroValor").innerText = "";
+}

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifica Boleto</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+    <style>
+        main {            
+            width: 100%;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+
+            justify-content: center;
+            align-items: start;
+
+            margin-top: 20px;
+            
+        }
+
+        .card{
+            width: 100%;
+            max-width: 500px;
+
+            min-height: 150px;
+            max-height: 250px;
+
+            padding: 20px;
+
+            border: 1px solid #ffbebeec;
+            border-radius: 20px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            box-shadow: rgb(255, 191, 191) 0px 8px 25px;
+
+            transition: 0.3s;
+        }
+        
+        .card:hover{
+            transform: translateY(-3px);
+        }
+
+        @keyframes aparecer{
+
+        from{
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to{
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+}
+
+        .card h4{
+            font-size: 24px;
+        }
+        @media (max-width: 768px){
+
+            main{
+                grid-template-columns: 1fr;
+            }
+
+        }
+        
+    </style>
+</head>
+
+<body>
+    
+    <header>
+        <nav>
+            <a href="index.html" aria-label="Ir para o início da página">
+                <h1>Verifica Boleto</h1>
+            </a>
+        </nav>
+    </header>
+
+    <h2 class="titulo-faq" id="inicio">Perguntas Frequentes</h2>
+
+    <main>
+
+        <div class="card">
+                <div class="faq-question">
+                    <h4>Como funciona a verificação do boleto?</h4>
+                </div>
+                <div class="faq-answer">O sistema analisa informações do boleto, como linha digitável, banco emissor, valores e inconsistências para identificar possíveis sinais de fraude.</div>
+            </div>
+
+            <div class="card">
+                <div class="faq-question">
+                    <h4>Preciso preencher todos os campos para verficar o boleto?</h4>
+                </div>
+                <div class="faq-answer">Sim, todos os campos são necessários para a validação correta e para encontrar as possíveis divergências, sem eles não é possível verificar de maneira eficaz.</div>
+            </div>
+
+            <div class="card">
+                <div class="faq-question">
+                    <h4>O Verifica Boleto garante que os dados sejam válidos?</h4>
+                </div>
+                <div class="faq-answer">Não. A análise serve como apoio para identificação de indícios suspeitos, mas não substitui a verificação oficial do banco emissor. O Verifica Boleto ajuda a mostrar os dados divergentes.</div>
+            </div> 
+
+            <div class="card">
+                <div class="faq-question">
+                    <h4>O que devo fazer se o boleto for considerado suspeito?</h4>
+                </div>
+                <div class="faq-answer">Recomendamos entrar em contato com o emissor do boleto para confirmar a autenticidade antes de realizar qualquer pagamento. Evite pagar boletos que apresentem sinais de fraude.</div>
+            </div>
+
+            <div class="card">
+                <div class="faq-question">
+                    <h4>Preciso pagar algum valor para verificar um boleto?</h4>
+                </div>
+                <div class="faq-answer">Não! O Verifica Boleto é uma ferramenta gratuita para ajudar os usuários a verificar a autenticidade de seus boletos.</div>
+            </div>
+
+            <div class="card">
+                <div class="faq-question">
+                    <h4>Quais tipos de boleto posso verificar?</h4>
+                </div>
+                <div class="faq-answer">Você pode verificar boletos bancários em PDF ou digitar manualmente a linha digitável e os demais dados. Não aceitamos imagens ou qualquer outro tipo de arquivo.</div>
+            </div>
+
+            <div class="card">
+                <div class="faq-question">
+                    <h4>O Verifica Boleto funciona com celular e tablet?</h4>
+                </div>
+                <div class="faq-answer">Sim. O Verifica Boleto é compatível com computadores, tablets e celulares. Basta acessar nosso site no dispositivo que preferir.</div>
+            </div>
+
+            <div class="card">
+                <div class="faq-question">
+                    <h4>Paguei um boleto falso/suspeito. E agora?</h4>
+                </div>
+                <div class="faq-answer">Recomendamos entrar em contato com seu banco imediatamente para relatar o incidente e buscar orientação sobre os passos a serem tomados.</div>
+            </div>
+    </main>
+    
+<footer>
+
+            <div class="footer-top">
+
+                <div class="footer-esquerda">
+
+                    
+                    <a href="#inicio" aria-label="Ir para o início da página" style="text-decoration: none;">
+                        <h1>Verifica Boleto</h1>
+                    </a>
+                   
+                    <a href="index.html" class="link-faq">Verficar Boleto Agora</a>
+
+                </div>
+
+                <div class="footer-direita">
+
+                    <img src="./imagens/icone-git.png" alt="Ícone do GitHub" id="icone-git">
+
+                    <div class="links-github">
+
+                        <a href="https://github.com/lopes-thais/FrontEnd-VerificaBoleto"class="link-git">
+                            GitHub FrontEnd
+                        </a>
+
+                        <a href="https://github.com/geooogab/VerificaBoleto" class="link-git">
+                            GitHub BackEnd
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <p class="direitos">
+                VerificaBoleto-2026 - Todos os direitos reservados.
+            </p>
+
+        </footer>
+
+    <script>
+        const questions = document.querySelectorAll(".faq-question");
+
+        questions.forEach(q => {
+        q.addEventListener("click", () => {
+            const answer = q.nextElementSibling;
+            answer.style.display = (answer.style.display === "block") ? "none" : "block";
+        });
+        });
+
+        questions.forEach(q => {
+
+});
+    </script>
+</body>
+</html>

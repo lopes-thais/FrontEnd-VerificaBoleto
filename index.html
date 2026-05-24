@@ -84,8 +84,12 @@
             
             <div class="mensagem-erro" id="erroValor"></div>
                     
-                <button class="btn-verificar" onclick="verificar()">Verificar Boleto</button>
-            </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-verificar" onclick="verificar()">Verificar Boleto</button>
+                        <button type="button" onclick="limparCampos()" class="btn-limpar">Limpar</button>
+                    </div>                
+
+            </div>            
 
                 <div id="conteudo-pdf" style="display:none;">
 
@@ -211,20 +215,49 @@
 
         <footer>
 
-                    <div class="texto-footer">
-                        <nav>
-                            <a href="#inicio">
-                                <h1>Verifica Boleto</h1>
-                            </a>                        
-                        </nav>
-                        
-                        <p>VerificaBoleto-2026 - Todos os direitos reservados.</p>
+            <div class="footer-top">
+
+                <div class="footer-esquerda">
+                    
+                    <a href="#inicio" aria-label="Ir para o início da página" style="text-decoration: none;">
+                        <h1>Verifica Boleto</h1>
+                    </a>                    
+
+                    <a href="faq.html" class="link-faq">
+                        Perguntas Frequentes
+                    </a>
+
+                </div>
+
+                <div class="footer-direita">
+
+                    <img src="./imagens/icone-git.png"
+                    alt="Ícone do GitHub"
+                    id="icone-git">
+
+                    <div class="links-github">
+
+                        <a href="https://github.com/lopes-thais/FrontEnd-VerificaBoleto"
+                        class="link-git">
+                            GitHub FrontEnd
+                        </a>
+
+                        <a href="https://github.com/geooogab/VerificaBoleto"
+                        class="link-git">
+                            GitHub BackEnd
+                        </a>
+
                     </div>
 
-                    <img src="./imagens/icone-git.png" alt="Ícone do GitHub" id="icone-git">
+                </div>
+
+            </div>
+
+            <p class="direitos">
+                VerificaBoleto-2026 - Todos os direitos reservados.
+            </p>
 
         </footer>
-
     <script src="script/script.js"></script>
 </body>
 </html>
