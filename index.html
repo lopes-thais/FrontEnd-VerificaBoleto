@@ -46,22 +46,26 @@
                 
                 <div id="conteudo-codigo">
                     <label for="codigoBarras">Digite o código de barras:</label>
-                <input 
-                    type="text" 
-                    id="codigoBarras"
-                    placeholder="Ex: 00190.00009 02626.560004 00000.000000 1 00000000000000" 
-                />
+                    
+                    <div class="input-icon">
+                        
+                        <input                         
+                            type="text" 
+                            id="codigoBarras"
+                            placeholder="Ex: 00190.00009 02626.560004 00000.000000 1 00000000000000" 
+                        />
+                    </div>
+                    
+                <div class="mensagem-erro" id="erroCodigo"></div>
 
-            <br><br>
 
             <label for="cpfCnpj">Digite o CPF/CNPJ do beneficiário:</label>
             <input 
                 type="text" 
                 id="cpfCnpj"
                 placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-90"  
-            />
-
-            <br><br>
+            />            
+            <div class="mensagem-erro" id="erroCpf"></div>
 
             <label for="vencimento">Digite a data de vencimento:</label>
             <input 
@@ -69,17 +73,16 @@
                 id="vencimento"
                 placeholder="Ex: dd/mm/aaaa" 
             />
-
-            <br><br>
+            <div class="mensagem-erro" id="erroVencimento"></div>
 
             <label for="valorBoleto">Digite o valor do boleto:</label>
             <input 
                 type="text" 
-                id="valorBoleto"
+                id="valorBoletoInput"
                 placeholder="Ex: R$ 123,45" 
             />
-
-            <br><br>
+            
+            <div class="mensagem-erro" id="erroValor"></div>
                     
                 <button class="btn-verificar" onclick="verificar()">Verificar Boleto</button>
             </div>
@@ -118,12 +121,12 @@
 
                         <div class="resultado-item">
                             <span>Valor:</span>
-                            <span id="valorBoleto"></span>
+                            <span id="valorBoletoResultado"></span>
                         </div>
 
                         <div class="resultado-item">
                             <span>Vencimento:</span>
-                            <span id="vencimento"></span>
+                            <span id="vencimentoResultado"></span>
                         </div>
 
                         <div class="resultado-item">
@@ -131,11 +134,9 @@
                             <span id="cnpj"></span>
                         </div>
 
-                        <button class="btn-verificar" onclick="verificar">Verificar Boleto</button>
+                        <button class="btn-verificar" onclick="verificar()">Verificar Boleto</button>
 
                     </div>
-
-                    <button onclick="mostrarResultado('verdadeiro')"></button>
 
                 </div>
             </div>

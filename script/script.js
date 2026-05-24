@@ -78,6 +78,22 @@ input.addEventListener("change", async () => {
     const formData = new FormData();
     formData.append("arquivo", arquivo);
 
+    if(arquivo.type !== "application/pdf"){
+
+        texto.textContent = "Apenas arquivos PDF são permitidos";        
+        texto.style.color = "red";
+        remover.style.visibility = "hidden";
+        input.value = "";
+
+        return;
+    }
+
+            
+    texto.style.color = "#555";
+    texto.textContent = arquivo.name;
+    remover.style.visibility = "visible";
+
+
     try{
 
         const resposta = await fetch("http://localhost:8080/upload", {
@@ -112,32 +128,44 @@ function mostrarResultado(status){
 
                 <p class="recomendacao">O boleto NÃO apresenta indícios de falsificação! É seguro realizar o pagamento.</p>
 
-                        <div class="resultadoItem">
-                            <strong>Linha digitável:</strong>
-                            <span class="linhaDigitavel"></span>
-                        </div>
+                <div class="resultadoLista">
 
-                        <div class="resultadoItem">
-                            <strong>Valor (no documento):</strong>
-                            <strong>Valor (na linha digitável):</strong>
-                            <span class="valorBoleto"></span>
-                        </div>
+                    <div class="linhaResultado">
+                        <strong>Linha digitável:</strong>
+                        <span class="linhaDigitavel"></span>
+                    </div>
 
-                        <div class="resultadoItem">
-                            <strong>Vencimento:</strong>
-                            <span class="vencimento"></span>
-                        </div>
+                    <div class="linhaResultado">
+                        <strong>Valor no documento:</strong>
+                        <span class="valorDocumento">R$ 120,00</span>
+                    </div>
 
-                        <div class="resultadoItem">
-                            <strong>CNPJ Beneficiário:</strong>
-                            <span class="cnpj"></span>
-                        </div>
+                    <div class="linhaResultado">
+                        <strong>Valor na linha digitável:</strong>
+                        <span class="valorLinha">R$ 120,00</span>
+                    </div>
 
-                        <div class="resultadoItem">
-                            <strong>Código banco emissor (no documento):</strong>
-                            <strong>Código banco emissor (na linha digitável):</strong>
-                            <span class="agenciaBeneficiario"></span>
-                        </div>
+                    <div class="linhaResultado">
+                        <strong>Vencimento:</strong>
+                        <span class="vencimento"></span>
+                    </div>
+
+                    <div class="linhaResultado">
+                        <strong>CNPJ Beneficiário:</strong>
+                        <span class="cnpj"></span>
+                    </div>
+
+                    <div class="linhaResultado">
+                        <strong>Banco emissor (documento):</strong>
+                        <span class="bancoDocumento"></span>
+                    </div>
+
+                    <div class="linhaResultado">
+                        <strong>Banco emissor (linha digitável):</strong>
+                        <span class="bancoLinha"></span>
+                    </div>
+
+                </div>
             <div>
         `;
 
@@ -155,32 +183,44 @@ function mostrarResultado(status){
 
                     <p class="recomendacao">O boleto apresenta inconsistências! Recomendamos não realizar o pagamento.</p>
                 
-                        <div class="resultadoItem">
-                            <strong>Linha digitável:</strong>
-                            <span class="linhaDigitavel"></span>
-                        </div>
+<div class="resultadoLista">
 
-                        <div class="resultadoItem">
-                            <strong>Valor (no documento):</strong>
-                            <strong>Valor (na linha digitável):</strong>
-                            <span class="valorBoleto"></span>
-                        </div>
+    <div class="linhaResultado">
+        <strong>Linha digitável:</strong>
+        <span class="linhaDigitavel"></span>
+    </div>
 
-                        <div class="resultadoItem">
-                            <strong>Vencimento:</strong>
-                            <span class="vencimento"></span>
-                        </div>
+    <div class="linhaResultado">
+        <strong>Valor no documento:</strong>
+        <span class="valorDocumento">R$ 120,00</span>
+    </div>
 
-                        <div class="resultadoItem">
-                            <strong>CNPJ Beneficiário:</strong>
-                            <span class="cnpj"></span>
-                        </div>
+    <div class="linhaResultado">
+        <strong>Valor na linha digitável:</strong>
+        <span class="valorLinha">R$ 120,00</span>
+    </div>
 
-                        <div class="resultadoItem">
-                            <strong>Código banco emissor (no documento):</strong>
-                            <strong>Código banco emissor (na linha digitável):</strong>
-                            <span class="agenciaBeneficiario"></span>
-                        </div>
+    <div class="linhaResultado">
+        <strong>Vencimento:</strong>
+        <span class="vencimento"></span>
+    </div>
+
+    <div class="linhaResultado">
+        <strong>CNPJ Beneficiário:</strong>
+        <span class="cnpj"></span>
+    </div>
+
+    <div class="linhaResultado">
+        <strong>Banco emissor (documento):</strong>
+        <span class="bancoDocumento"></span>
+    </div>
+
+    <div class="linhaResultado">
+        <strong>Banco emissor (linha digitável):</strong>
+        <span class="bancoLinha"></span>
+    </div>
+
+</div>
             <div>
         `;
 
@@ -198,31 +238,45 @@ function mostrarResultado(status){
 
                     <p class="recomendacao">O boleto apresenta fortes indícios de falsificação! Recomendamos não realizar o pagamento.</p>
 
-                        <div class="resultadoItem">
-                            <strong>Linha digitável:</strong>
-                            <span class="linhaDigitavel"></span>
-                        </div>
+                        <div class="resultadoLista">
+                            <div class="linhaResultado">
+                                <strong>Linha digitável:</strong>
+                                <span class="linhaDigitavel"></span>
+                            </div>
 
-                        <div class="resultadoItem">
-                            <strong>Valor (no documento):</strong>
-                            <strong>Valor (na linha digitável):</strong>
-                            <span class="valorBoleto"></span>
-                        </div>
+                            <div class="linhaResultado">
+                                <strong>Valor no documento:</strong>
+                                <span class="valorDocumento">R$ 120,00</span>
+                            </div>
+                        
+                            <div class="linhaResultado">
+                                <strong>Valor na linha digitável:</strong>
+                                <span class="valorLinha">R$ 120,00</span>
+                            </div>
 
-                        <div class="resultadoItem">
-                            <strong>Vencimento:</strong>
-                            <span class="vencimento"></span>
-                        </div>
+                            <div class="linhaResultado">
+                                <strong>Vencimento:</strong>
+                                <span class="vencimento"></span>
+                            </div>
 
-                        <div class="resultadoItem">
-                            <strong>CNPJ Beneficiário:</strong>
-                            <span class="cnpj"></span>
-                        </div>
+                            <div class="linhaResultado">
+                                <strong>CNPJ Beneficiário:</strong>
+                                <span class="cnpj"></span>
+                            </div>
 
-                        <div class="resultadoItem">
-                            <strong>Código banco emissor (no documento):</strong>
-                            <strong>Código banco emissor (na linha digitável):</strong>
-                            <span class="agenciaBeneficiario"></span>
+                            <div class="linhaResultado">
+                                <strong>Banco emissor (documento):</strong>
+                                <span class="bancoDocumento"></span>
+                            </div>
+
+                            <div class="linhaResultado">
+                                <strong>Banco emissor (linha digitável):</strong>
+                                <span class="bancoLinha"></span>
+                            </div>
+                            <div class="linhaResultado">
+                                <strong>Código banco emissor (na linha digitável):</strong>
+                                <span class="agenciaBeneficiario"></span>
+                            </div>
                         </div>
             <div>
         `;
@@ -230,3 +284,174 @@ function mostrarResultado(status){
     }
 
 }
+
+async function verificar() {
+
+    const codigo = document.getElementById("codigoBarras");
+    const cpf = document.getElementById("cpfCnpj");
+    const vencimento = document.getElementById("vencimento");
+    const valor = document.getElementById("valorBoletoInput");
+    let valido = true;
+
+    document.getElementById("erroCodigo").textContent = "";
+    document.getElementById("erroCpf").textContent = "";
+    document.getElementById("erroVencimento").textContent = "";
+    document.getElementById("erroValor").textContent = "";
+
+    if(codigo.value.trim() === ""){
+
+        codigo.style.border = "2px solid red";
+        document.getElementById("erroCodigo").textContent =
+        "Preencha este campo";
+        valido = false;
+
+    } else {
+
+        codigo.style.border = "";
+    }
+
+    if(cpf.value.trim() === ""){
+
+        cpf.style.border = "2px solid red";
+        document.getElementById("erroCpf").textContent =
+        "Preencha este campo";
+
+        valido = false;
+
+    } else {
+
+        cpf.style.border = "";
+    }
+
+    if(vencimento.value.trim() === ""){
+
+        vencimento.style.border = "2px solid red";
+        document.getElementById("erroVencimento").textContent =
+        "Preencha este campo";
+        valido = false;
+
+    } else {
+
+        vencimento.style.border = "";
+    }
+
+    if(valor.value.trim() === ""){
+
+        valor.style.border = "2px solid red";
+        document.getElementById("erroValor").textContent =
+        "Preencha este campo";
+        valido = false;
+
+    } else {
+
+        valor.style.border = "";
+    }
+
+    if(!valido){
+        return;
+    }
+
+    const botao = document.querySelector(".btn-verificar");
+
+    botao.disabled = true;
+
+    botao.innerHTML = `
+        <div class="loading-btn">
+            <div class="spinner-btn"></div>
+            <span>Analisando...</span>
+        </div>
+    `;
+
+    setTimeout(() => {
+
+        mostrarResultado("verdadeiro");
+        botao.disabled = false;
+        botao.innerHTML = "Verificar Boleto";
+
+    }, 2000);
+}
+
+const cpfCnpjInput = document.getElementById("cpfCnpj");
+
+cpfCnpjInput.addEventListener("input", () => {
+
+    let valor = cpfCnpjInput.value.replace(/\D/g, "");
+    valor = valor.substring(0, 14);
+
+    if (valor.length <= 11) {
+        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+        valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    } else {
+        valor = valor.replace(/^(\d{2})(\d)/, "$1.$2");
+        valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+        valor = valor.replace(/\.(\d{3})(\d)/, ".$1/$2");
+        valor = valor.replace(/(\d{4})(\d{1,2})$/, "$1-$2");
+    }
+
+    cpfCnpjInput.value = valor;
+});
+
+
+const vencimentoInput = document.getElementById("vencimento");
+
+vencimentoInput.addEventListener("input", () => {
+
+    let valor = vencimentoInput.value.replace(/\D/g, "");
+    valor = valor.substring(0, 8);
+
+    valor = valor.replace(/(\d{2})(\d)/, "$1/$2");
+    valor = valor.replace(/(\d{2})\/(\d{2})(\d)/, "$1/$2/$3");
+    vencimentoInput.value = valor;
+});
+
+const valorInput = document.getElementById("valorBoletoInput");
+
+valorInput.addEventListener("input", () => {
+
+    let valor = valorInput.value.replace(/\D/g, "");
+    valor = (valor / 100).toFixed(2) + "";
+    valor = valor.replace(".", ",");
+    valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    valorInput.value = "R$ " + valor;
+});
+
+
+const codigoInput = document.getElementById("codigoBarras");
+
+codigoInput.addEventListener("input", () => {
+
+    let valor = codigoInput.value.replace(/\D/g, "");
+
+    valor = valor.substring(0, 47);
+
+    if(valor.length > 5){
+        valor = valor.replace(/^(\d{5})(\d)/, "$1.$2");
+    }
+
+    if(valor.length > 11){
+        valor = valor.replace(/^(\d{5})\.(\d{5})(\d)/, "$1.$2 $3");
+    }
+
+    if(valor.length > 17){
+        valor = valor.replace(/^(\d{5})\.(\d{5}) (\d{5})(\d)/, "$1.$2 $3.$4");
+    }
+
+    if(valor.length > 24){
+        valor = valor.replace(/^(\d{5})\.(\d{5}) (\d{5})\.(\d{6})(\d)/, "$1.$2 $3.$4 $5");
+    }
+
+    if(valor.length > 30){
+        valor = valor.replace(/^(\d{5})\.(\d{5}) (\d{5})\.(\d{6}) (\d{5})(\d)/, "$1.$2 $3.$4 $5.$6");
+    }
+
+    if(valor.length > 37){
+        valor = valor.replace(/^(\d{5})\.(\d{5}) (\d{5})\.(\d{6}) (\d{5})\.(\d{6})(\d)/, "$1.$2 $3.$4 $5.$6 $7");
+    }
+
+    if(valor.length > 39){
+        valor = valor.replace(/^(.+)\s(\d)(\d{1,14})$/, "$1 $2 $3");
+    }
+
+    codigoInput.value = valor;
+});
