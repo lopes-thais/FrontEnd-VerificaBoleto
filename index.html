@@ -10,13 +10,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css">
 
+    <link rel="icon" type="image/png" href="./imagens/favicon-bradesco.png">
+
 </head>
 
 <body>
 
-    <header>
+    <header id="#inicio">
 
-        <h1 id="inicio">Verifica Boleto</h1>
+        <div class="logo">
+            <img src="./imagens/icone-bradesco.png" alt="Ícone Bradesco" id="icone-logo" style="height: 70px;">
+            <!--<h1 id="inicio">Verifica Boleto</h1>-->
+        </div>
             <nav>                
                     <a href="#verificar" aria-label="Ir para formulário de verificação de boleto">Verificar</a>
                     <a href="#" aria-label="Ir para vídeo sobre pagamentos de boleto com segurança">Segurança</a>
@@ -45,7 +50,7 @@
             <div id="verificar">
                 
                 <div id="conteudo-codigo">
-                    <label for="codigoBarras">Digite o código de barras:</label>
+                    <label for="codigoBarras">Digite os números da linha digitável do boleto:</label>
                     
                     <div class="input-icon">
                         
@@ -75,7 +80,7 @@
             />
             <div class="mensagem-erro" id="erroVencimento"></div>
 
-            <label for="valorBoleto">Digite o valor do boleto:</label>
+            <label for="valorBoletoInput">Digite o valor do boleto:</label>
             <input 
                 type="text" 
                 id="valorBoletoInput"
@@ -113,34 +118,33 @@
                         
                     </label>        
                     
+                    <h3 style="margin-top: 4px;">Dados extraídos:</h3>
 
-                    <div id="dados-extraidos" style="display:block;">
+                    <div id="resultadoLista" style="display:block;">
 
-                        <h3>Dados extraídos:</h3>
-
-                        <div class="resultado-item">
-                            <span>Linha digitável:</span>
+                        <div class="linhaResultadoExtraido">
+                            <strong>Linha digitável:</strong>
                             <span id="linhaDigitavel"></span>
                         </div>
 
-                        <div class="resultado-item">
-                            <span>Valor:</span>
+                        <div class="linhaResultadoExtraido">
+                            <strong>Valor:</strong>
                             <span id="valorBoletoResultado"></span>
                         </div>
 
-                        <div class="resultado-item">
-                            <span>Vencimento:</span>
+                        <div class="linhaResultadoExtraido">
+                            <strong>Vencimento:</strong>
                             <span id="vencimentoResultado"></span>
                         </div>
 
-                        <div class="resultado-item">
-                            <span>CNPJ Beneficiário:</span>
+                        <div class="linhaResultadoExtraido">
+                            <strong>CPF/CNPJ Beneficiário:</strong>
                             <span id="cnpj"></span>
                         </div>
 
-                        <button class="btn-verificar" onclick="verificar()">Verificar Boleto</button>
-
                     </div>
+
+                    <button class="btn-verificar" onclick="verificarPdf()">Verificar Boleto</button>
 
                 </div>
             </div>
@@ -159,7 +163,6 @@
                 <img src="./imagens/icone-seguranca.png" alt="" id="icone-seguranca">
 
                 <div class="texto-dica">
-
                     <h4>DICA DE SEGURANÇA</h4>
                 <p>Sempre confira os dados do beneficiário antes de realizar o pagamento.</p>
 
@@ -171,12 +174,12 @@
 
         </div>
 
-    <div id="sobre">
-        <section>            
+
+        <section id="sobre">            
         
+        <div>
             <h2>Tecnologia bancária ao seu alcance!</h2>
-            <p>Aplicamos os mesmos algoritmos usados pelos bancos para validar boletos.</p>
-            
+            <p>Aplicamos os mesmos algoritmos usados pelos bancos para validar boletos.</p>   
         </div>
 
         <div class="container-cards">
@@ -220,7 +223,10 @@
                 <div class="footer-esquerda">
                     
                     <a href="#inicio" aria-label="Ir para o início da página" style="text-decoration: none;">
-                        <h1>Verifica Boleto</h1>
+                        <div class="logo">
+                            <img src="./imagens/icone-bradesco.png" alt="Ícone Bradesco" id="icone-logo" style="height: 70px;">
+                            <!--<h1>Verifica Boleto</h1>-->
+                        </div>
                     </a>                    
 
                     <a href="faq.html" class="link-faq">
@@ -254,7 +260,7 @@
             </div>
 
             <p class="direitos">
-                VerificaBoleto-2026 - Todos os direitos reservados.
+                Bradesco VerificaBoleto-2026 - Todos os direitos reservados.
             </p>
 
         </footer>

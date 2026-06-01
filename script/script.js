@@ -1,13 +1,3 @@
-function mostrarCodigo() {
-    document.getElementById("conteudo-codigo").style.display = "block";
-    document.getElementById("conteudo-pdf").style.display = "none";
-}
-
-function mostrarPdf() {
-    document.getElementById("conteudo-pdf").style.display = "flex";
-    document.getElementById("conteudo-codigo").style.display = "none";
-}
-
 
 function removerAtivo() {
     document.querySelectorAll('.btn')
@@ -31,7 +21,6 @@ function mostrarPdf(botao) {
 }
 
 
-
 const input = document.getElementById("fileInput");
 const texto = document.getElementById("nomeArquivo");
 const remover = document.getElementById("btnRemover");
@@ -41,13 +30,11 @@ input.addEventListener("change", () => {
     if(input.files.length > 0){
 
         texto.textContent = input.files[0].name;
-
         remover.style.visibility = "visible";
 
     } else {
 
         texto.textContent = "Nenhum arquivo selecionado";
-
         remover.style.visibility = "hidden";
     }
 
@@ -59,337 +46,316 @@ remover.addEventListener("click", (e) => {
     e.stopPropagation();
 
     input.value = "";
-
     texto.textContent = "Nenhum arquivo selecionado";
-
     remover.style.visibility = "hidden";
 
 });
 
 //logica envio arquivo pdf para o back
 
-
 input.addEventListener("change", async () => {
 
     const arquivo = input.files[0];
+    if (!arquivo) return;
 
-    if(!arquivo) return;
+    if (arquivo.type !== "application/pdf") {
+        texto.textContent = "Apenas arquivos PDF são permitidos";
+        texto.style.color = "red";
+        remover.style.visibility = "hidden";
+        input.value = "";
+        return;
+    }
 
     const formData = new FormData();
     formData.append("arquivo", arquivo);
 
-    if(arquivo.type !== "application/pdf"){
-
-        texto.textContent = "Apenas arquivos PDF são permitidos";        
-        texto.style.color = "red";
-        remover.style.visibility = "hidden";
-        input.value = "";
-
-        return;
-    }
-
-            
     texto.style.color = "#555";
     texto.textContent = arquivo.name;
     remover.style.visibility = "visible";
 
+    const botaoPdf = document.querySelector("#conteudo-pdf .btn-verificar");
 
-    try{
-
-        const botaoPdf = document.querySelector("#conteudo-pdf .btn-verificar");
+    try {
 
         botaoPdf.disabled = true;
+        botaoPdf.innerHTML = "Extraindo dados...";
 
-        botaoPdf.innerHTML = `
-            <div class="loading-btn">
-                <div class="spinner-btn"></div>
-                <span>Extraindo os dados...</span>
-            </div>
-        `;
+        console.log("ENVIANDO PDF:", arquivo);
 
-        await new Promise(resolve => setTimeout(resolve, 3000));
-
-        const resposta = await fetch("http://localhost:8080/upload", {
+        const resposta = await fetch("https://verificaboleto.onrender.com/pdf/extrair", {
             method: "POST",
-            body: formData
+            body: formData    
         });
+
+        console.log("STATUS:", resposta.status);
+        console.log("OK:", resposta.ok);
 
         const dados = await resposta.json();
 
-        console.log(dados);
+        console.log("PDF EXTRAÍDO:", dados);
 
-        document.getElementById("linhaDigitavel").textContent =
-            dados.linhaDigitavel || "Não encontrado";
+        document.getElementById("linhaDigitavel").textContent = dados.linhaDigitavel || "-";
+        document.getElementById("valorBoletoResultado").textContent = dados.valor || "-";
+        document.getElementById("vencimentoResultado").textContent = dados.vencimento || "-";
+        document.getElementById("cnpj").textContent = dados.cnpj || "-";
 
-        document.getElementById("valorBoletoResultado").textContent =
-            dados.valor || "Não encontrado";
+        window.dadosPdf = dados;
 
-        document.getElementById("vencimentoResultado").textContent =
-            dados.vencimento || "Não encontrado";
-
-        document.getElementById("cnpj").textContent =
-            dados.cnpj || "Não encontrado";
-
-    } catch(erro){
+    } catch (erro) {
 
         console.error("Erro ao enviar PDF:", erro);
 
     } finally {
 
-        const botaoPdf = document.querySelector("#conteudo-pdf .btn-verificar");
-
         botaoPdf.disabled = false;
-
         botaoPdf.innerHTML = "Verificar Boleto";
-
     }
-    
 });
 
+function montarPayload() {
 
-function mostrarResultado(status){
+    const linha = document.getElementById("codigoBarras").value;
+    const valor = document.getElementById("valorBoletoInput").value;
+    const vencimento = document.getElementById("vencimento").value;
+    const cnpj = document.getElementById("cpfCnpj").value;
 
-    const painel = document.getElementById("painelResultado");
+    const linhaDigitavel = linha.replace(/\D/g, "");
 
-    if(status === "verdadeiro"){
+    const valorNumerico = Number(
+        valor
+            .replace("R$", "")
+            .replace(/\./g, "")
+            .replace(",", ".")
+            .trim()
+    );
 
-        painel.innerHTML = `            
+    //muda ordem da data de dd/mm/yyyy para yyyy-mm-dd
+    const [dia, mes, ano] = vencimento.split("/");
+    const dataFormatada = `${ano}-${mes}-${dia}`;
 
-             <div class="resultado">
-                <div class="verdadeiro">
-                        <img src="./imagens/icone-oficial.png" alt="Icone verde certo" id="icone-verdadeiro">
-                    <h3 class="tituloResultado">BOLETO OFICIAL!</h3>               
-                </div>
+    // limpa CNPJ
+    const cnpjLimpo = cnpj.replace(/\D/g, "");
 
-                <p class="recomendacao">O boleto NÃO apresenta indícios de falsificação! É seguro realizar o pagamento.</p>
+    return {
+        linhaDigitavel: linhaDigitavel,
+        valor: valorNumerico,
+        dataVencimento: dataFormatada,
+        beneficiario: {
+            cnpj: cnpjLimpo
+        }
+    };
+}
 
-                <div class="resultadoLista">
 
-                    <div class="linhaResultado">
-                        <strong>Linha digitável:</strong>
-                        <span class="linhaDigitavel"></span>
-                    </div>
+async function verificarPdf(){
 
-                    <div class="linhaResultado">
-                        <strong>Valor no documento:</strong>
-                        <span class="valorDocumento">R$ 120,00</span>
-                    </div>
+    const botao = document.querySelector("#conteudo-pdf .btn-verificar");
 
-                    <div class="linhaResultado">
-                        <strong>Valor na linha digitável:</strong>
-                        <span class="valorLinha">R$ 120,00</span>
-                    </div>
+    botao.disabled = true;
 
-                    <div class="linhaResultado">
-                        <strong>Vencimento:</strong>
-                        <span class="vencimento"></span>
-                    </div>
+    botao.innerHTML = `
+        <div class="loading-btn">
+            <div class="spinner-btn"></div>
+            <span>Analisando boleto...</span>
+        </div>
+    `;
 
-                    <div class="linhaResultado">
-                        <strong>CNPJ Beneficiário:</strong>
-                        <span class="cnpj"></span>
-                    </div>
+    const resposta = await fetch("https://verificaboleto.onrender.com/pdf/extrair", {
+        method: "POST",
+        body: formData
+    });
 
-                    <div class="linhaResultado">
-                        <strong>Banco emissor (documento):</strong>
-                        <span class="bancoDocumento"></span>
-                    </div>
-
-                    <div class="linhaResultado">
-                        <strong>Banco emissor (linha digitável):</strong>
-                        <span class="bancoLinha"></span>
-                    </div>
-
-                </div>
-            <div>
-        `;
-
-    }
-
-    if(status === "suspeito"){
-
-        painel.innerHTML = `
-
-             <div class="resultado">
-                <div class="suspeito">
-                    <img src="./imagens/icone-suspeito.png" alt="Icone alerta amarelo" id="icone-suspeito">
-                    <h3 class="tituloResultado">BOLETO SUSPEITO!</h3>               
-                </div>
-
-                    <p class="recomendacao">O boleto apresenta inconsistências! Recomendamos não realizar o pagamento.</p>
-                
-                <div class="resultadoLista">
-
-                    <div class="linhaResultado">
-                        <strong>Linha digitável:</strong>
-                        <span class="linhaDigitavel"></span>
-                    </div>
-
-                    <div class="linhaResultado">
-                        <strong>Valor no documento:</strong>
-                        <span class="valorDocumento">R$ 120,00</span>
-                    </div>
-
-                    <div class="linhaResultado">
-                        <strong>Valor na linha digitável:</strong>
-                        <span class="valorLinha">R$ 120,00</span>
-                    </div>
-
-                    <div class="linhaResultado">
-                        <strong>Vencimento:</strong>
-                        <span class="vencimento"></span>
-                    </div>
-
-                    <div class="linhaResultado">
-                        <strong>CNPJ Beneficiário:</strong>
-                        <span class="cnpj"></span>
-                    </div>
-
-                    <div class="linhaResultado">
-                        <strong>Banco emissor (documento):</strong>
-                        <span class="bancoDocumento"></span>
-                    </div>
-
-                    <div class="linhaResultado">
-                        <strong>Banco emissor (linha digitável):</strong>
-                        <span class="bancoLinha"></span>
-                    </div>
-
-                </div>
-            <div>
-        `;
-
-    }
-
-    if(status === "falso"){
-
-        painel.innerHTML = `
-
-            <div class="resultado">
-                <div class="falso">
-                    <img src="./imagens/icone-alerta.png" alt="Icone vermelho alerta" id="icone-falso">
-                    <h3 class="tituloResultado">BOLETO FALSO!</h3>               
-                </div>
-
-                    <p class="recomendacao">O boleto apresenta fortes indícios de falsificação! Recomendamos não realizar o pagamento.</p>
-
-                        <div class="resultadoLista">
-                            <div class="linhaResultado">
-                                <strong>Linha digitável:</strong>
-                                <span class="linhaDigitavel"></span>
-                            </div>
-
-                            <div class="linhaResultado">
-                                <strong>Valor no documento:</strong>
-                                <span class="valorDocumento">R$ 120,00</span>
-                            </div>
-                        
-                            <div class="linhaResultado">
-                                <strong>Valor na linha digitável:</strong>
-                                <span class="valorLinha">R$ 120,00</span>
-                            </div>
-
-                            <div class="linhaResultado">
-                                <strong>Vencimento:</strong>
-                                <span class="vencimento"></span>
-                            </div>
-
-                            <div class="linhaResultado">
-                                <strong>CNPJ Beneficiário:</strong>
-                                <span class="cnpj"></span>
-                            </div>
-
-                            <div class="linhaResultado">
-                                <strong>Banco emissor (documento):</strong>
-                                <span class="bancoDocumento"></span>
-                            </div>
-
-                            <div class="linhaResultado">
-                                <strong>Banco emissor (linha digitável):</strong>
-                                <span class="bancoLinha"></span>
-                            </div>
-                            <div class="linhaResultado">
-                                <strong>Código banco emissor (na linha digitável):</strong>
-                                <span class="agenciaBeneficiario"></span>
-                            </div>
-                        </div>
-            <div>
-        `;
-
-    }
+    const resultado = await resposta.json();
 
 }
 
+async function envioBack() {
+
+    const body = montarPayload();
+
+    console.log("ENVIANDO PRO BACK:", body);
+
+    const resposta = await fetch("https://verificaboleto.onrender.com/boletos/analise", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    });
+
+    const resultado = await resposta.json();
+
+    console.log("RETORNO:", resultado);
+
+    return resultado;
+}
+
+function mostrarResultado(status, dadosUsuario, dadosLinha, score=0) {
+
+    const painel = document.getElementById("painelResultado");
+
+    let mensagem = "";
+    let corScore = "#6c757d";
+    let textoClassificacao = "Desconhecido";
+    let iconeScore = "./imagens/score-suspeito.PNG";
+    
+
+    // 1. status vindo do backend tem prioridade
+    if (status === "naoEncontrado") {
+
+        mensagem = "Este boleto não foi encontrado na base de dados. Não é possível confirmar sua autenticidade. Dados extraídos da linha digitavel:";
+        corScore = "#6c757d";
+        textoClassificacao = "Não encontrado";
+        iconeScore = "./imagens/icone-indefinido.PNG";
+
+    } else {
+
+        if (status == "Seguro") {
+            corScore = "#4e974e";
+            textoClassificacao = "Seguro";
+            iconeScore = "./imagens/score-bom.PNG";
+            mensagem = "O boleto não apresenta indícios de falsificação! É seguro realizar o pagamento.";
+            
+            
+
+        } else if (status == "Suspeito") {
+            corScore = "#d37408";
+            textoClassificacao = "Suspeito";
+            iconeScore = "./imagens/score-suspeito.PNG";
+            mensagem = "O boleto apresenta inconsistências. Recomendamos não realizar o pagamento e entrar em contato com a instituição financeira.";
+            
+
+        } else if (status == "Fraude"){
+            corScore = "#c62828";
+            textoClassificacao = "Falso";
+            iconeScore = "./imagens/score-fraude.PNG";
+            mensagem = "O boleto apresenta fortes indícios de falsificação! Recomendamos não realizar o pagamento.";
+            
+        }
+    }
+
+    painel.innerHTML = `
+        <div class="resultado ${status.toLowerCase()}">
+
+            <div class="scoreChat">
+
+                <div class="score" style="border: 2px solid ${corScore}; background-color: ${corScore}60;">
+
+                    <img class="icone-score" src="${iconeScore}" />
+
+                    <div class="texto-score">
+                        <strong>Boleto ${textoClassificacao}</strong>
+
+                        <span style="color:${corScore}">
+                            Risco de pagamento: ${score}%
+                        </span>
+
+                        <div class="barra-score">
+                            <div class="barra-score-preenchida"
+                                style="width:${score}%; background:${corScore};">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <p class="recomendacao">
+                ${mensagem}
+            </p>
+
+            <div class="resultadoLista">
+
+                <div class="linhaResultado"> 
+                    <strong>Linha Digitável:</strong> 
+                    <span>${dadosLinha.linhaCompleta}</span> 
+                </div>
+
+                <div class="linhaResultado"> 
+                    <strong>Vencimento informado pelo usuário:</strong> 
+                    <span>${dadosUsuario.dataVencimento || dadosUsuario.vencimento}</span> 
+                </div>
+
+                <div class="linhaResultado"> 
+                    <strong>Valor informado pelo usuário:</strong> 
+                    <span>${dadosUsuario.valor}</span>
+                </div>
+
+                <div class="linhaResultado"> 
+                    <strong>Valor na linha digitável:</strong> 
+                    <span>${dadosLinha.valorBoleto}</span>
+                </div> 
+
+                <div class="linhaResultado"> 
+                    <strong>CNPJ Beneficiário informado pelo usuário:</strong> 
+                    <span>${dadosUsuario.beneficiario?.cnpj || dadosUsuario.cpf}</span> 
+                </div>
+
+            </div>
+
+            <div class="chat">
+                <button class="btn-chat">
+                    Dúvidas?<br>
+                    Entre em contato pelo chat!
+                </button>
+            </div>
+
+        </div>
+    `;
+}
 async function verificar() {
 
     const codigo = document.getElementById("codigoBarras");
     const cpf = document.getElementById("cpfCnpj");
     const vencimento = document.getElementById("vencimento");
     const valor = document.getElementById("valorBoletoInput");
-    let valido = true;
 
+    // limpa erros
     document.getElementById("erroCodigo").textContent = "";
     document.getElementById("erroCpf").textContent = "";
     document.getElementById("erroVencimento").textContent = "";
     document.getElementById("erroValor").textContent = "";
 
-    if(codigo.value.trim() === ""){
+    let valido = true;
 
-        codigo.style.border = "2px solid red";
+    if (codigo.value.trim() === "") {
+        document.getElementById("erroCodigo").textContent = "Preencha este campo";
+        valido = false;
+    }
+
+    if (cpf.value.trim() === "") {
+        document.getElementById("erroCpf").textContent = "Preencha este campo";
+        valido = false;
+    }
+
+    if (vencimento.value.trim() === "") {
+        document.getElementById("erroVencimento").textContent = "Preencha este campo";
+        valido = false;
+    }
+
+    if (valor.value.trim() === "") {
+        document.getElementById("erroValor").textContent = "Preencha este campo";
+        valido = false;
+    }
+
+    if (!valido) return;
+
+    const dadosLinha = parseLinhaDigitavel(codigo.value);
+
+    if (!dadosLinha.valida) {
+        document.getElementById("erroCodigo").textContent = dadosLinha.mensagem;
+        return;
+    }
+
+    if (dadosLinha.linhaCompleta.endsWith("0000000000")) {
         document.getElementById("erroCodigo").textContent =
-        "Preencha este campo";
-        valido = false;
-
-    } else {
-
-        codigo.style.border = "";
-    }
-
-    if(cpf.value.trim() === ""){
-
-        cpf.style.border = "2px solid red";
-        document.getElementById("erroCpf").textContent =
-        "Preencha este campo";
-
-        valido = false;
-
-    } else {
-
-        cpf.style.border = "";
-    }
-
-    if(vencimento.value.trim() === ""){
-
-        vencimento.style.border = "2px solid red";
-        document.getElementById("erroVencimento").textContent =
-        "Preencha este campo";
-        valido = false;
-
-    } else {
-
-        vencimento.style.border = "";
-    }
-
-    if(valor.value.trim() === ""){
-
-        valor.style.border = "2px solid red";
-        document.getElementById("erroValor").textContent =
-        "Preencha este campo";
-        valido = false;
-
-    } else {
-
-        valor.style.border = "";
-    }
-
-    if(!valido){
+            "Não é possível validar faturas de cartão ou contas de consumo.";
         return;
     }
 
     const botao = document.querySelector(".btn-verificar");
 
     botao.disabled = true;
-
     botao.innerHTML = `
         <div class="loading-btn">
             <div class="spinner-btn"></div>
@@ -397,13 +363,87 @@ async function verificar() {
         </div>
     `;
 
-    setTimeout(() => {
+    try {
 
-        mostrarResultado("verdadeiro");
+        const body = {
+            linhaDigitavel: dadosLinha.linhaCompleta,
+            valor: Number(
+                valor.value
+                    .replace("R$", "")
+                    .replace(/\./g, "")
+                    .replace(",", ".")
+                    .trim()
+            ),
+            dataVencimento: (() => {
+                const [d, m, a] = vencimento.value.split("/");
+                return `${a}-${m}-${d}`;
+            })(),
+            beneficiario: {
+                cnpj: cpf.value.replace(/\D/g, "")
+            }
+        };
+
+        const resposta = await fetch(
+            "https://verificaboleto.onrender.com/boletos/analise",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            }
+        );
+
+        if (resposta.status === 400) {
+
+            mostrarResultado(
+                "naoEncontrado",
+                body,
+                dadosLinha
+            );
+
+            return;
+        }
+
+        const resultado = await resposta.json();
+
+        console.log(JSON.stringify(resultado, null, 2));
+
+        console.log("RETORNO BACK:", resultado);
+
+        const status = resultado.status || "naoEncontrado";
+        let score = 0;
+
+        if (status === "Seguro") {
+            score = 15;
+        }
+        else if (status === "Suspeito") {
+            score = 65;
+        }
+        else if (status === "Fraude") {
+            score = 95;
+        }
+        else {
+            score = 0;
+        }
+
+        mostrarResultado(
+            status,
+            body,
+            dadosLinha,
+            score
+        );
+
+    } catch (erro) {
+
+        console.error("ERRO FETCH:", erro);
+        alert("Erro de comunicação com o servidor");
+
+    } finally {
+
         botao.disabled = false;
         botao.innerHTML = "Verificar Boleto";
-
-    }, 2000);
+    }
 }
 
 const cpfCnpjInput = document.getElementById("cpfCnpj");
@@ -491,22 +531,6 @@ codigoInput.addEventListener("input", () => {
     codigoInput.value = valor;
 });
 
-img.addEventListener("click", function (event) {
-  menu.style.display = (menu.style.display === "block") ? "none" : "block";
-  
-  // posiciona o menu perto da imagem
-  const rect = img.getBoundingClientRect();
-  menu.style.left = rect.left + "px";
-  menu.style.top = rect.bottom + "px";
-});
-
-// fecha se clicar fora
-document.addEventListener("click", function (event) {
-  if (!img.contains(event.target) && !menu.contains(event.target)) {
-    menu.style.display = "none";
-  }
-});
-
 
 function limparCampos() {
   document.getElementById("codigoBarras").value = "";
@@ -524,3 +548,50 @@ function limparCampos() {
   document.getElementById("erroVencimento").innerText = "";
   document.getElementById("erroValor").innerText = "";
 }
+
+function parseLinhaDigitavel(linha) {
+
+    let linhaTexto = String(linha).trim();
+
+    if (linhaTexto.includes('e+')) {
+        return {
+            valida: false,
+            mensagem: "Erro de digitação: O navegador converteu o código. Tente digitar ou colar pausadamente."
+        };
+    }
+
+    const linhaLimpa = linha.replace(/\D/g, "");
+
+    /*
+        if(linhaLimpa.length !== 47){
+
+        return {
+            valida: false,
+            mensagem: "Linha digitável inválida."
+        };
+    }
+        */
+
+    const valorBruto = parseFloat(linhaLimpa.substring(37, 47));
+    let valorFormatado = "";
+
+    if (valorBruto === 0) {
+        valorFormatado = "Valor Flexível (Fatura/Consumo)";
+    } else {
+        // 3. Se não for zero, formata o R$ normalmente
+        valorFormatado = "R$ " + (valorBruto / 100)
+            .toFixed(2)
+            .replace(".", ",")
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    return {
+
+        valida: true,
+        linhaCompleta: linhaLimpa,
+        codigoBanco: linhaLimpa.substring(0,3),
+        valorBoleto: valorFormatado
+    };
+
+}
+

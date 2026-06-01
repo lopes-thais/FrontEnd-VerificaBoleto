@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css">
 
+    <link rel="icon" type="image/png" href="./imagens/icone-bradesco.png">
+
 </head>
     <style>
         main {            
@@ -83,9 +85,14 @@
     
     <header>
         <nav>
-            <a href="index.html" aria-label="Ir para o início da página">
-                <h1>Verifica Boleto</h1>
+
+            <a href="index.html" aria-label="Ir para o início da página" style="text-decoration: none;">
+                <div class="logo">
+                    <img src="./imagens/icone-bradesco.png" alt="Ícone Bradesco" id="icone-logo" style="height: 70px;">
+                    <!--<h1>Verifica Boleto</h1>-->
+                </div>
             </a>
+            
         </nav>
     </header>
 
@@ -102,7 +109,7 @@
 
             <div class="card">
                 <div class="faq-question">
-                    <h4>Preciso preencher todos os campos para verficar o boleto?</h4>
+                    <h4>Preciso preencher todos os campos para verificar o boleto?</h4>
                 </div>
                 <div class="faq-answer">Sim, todos os campos são necessários para a validação correta e para encontrar as possíveis divergências, sem eles não é possível verificar de maneira eficaz.</div>
             </div>
@@ -156,10 +163,12 @@
 
                 <div class="footer-esquerda">
 
-                    
                     <a href="#inicio" aria-label="Ir para o início da página" style="text-decoration: none;">
-                        <h1>Verifica Boleto</h1>
-                    </a>
+                        <div class="logo">
+                            <img src="./imagens/favicon-bradesco.png" alt="Ícone Bradesco" id="icone-logo" style="height: 70px;">
+                            <!--<h1>Verifica Boleto</h1>-->
+                        </div>
+                    </a> 
                    
                     <a href="index.html" class="link-faq">Verficar Boleto Agora</a>
 
@@ -186,7 +195,7 @@
             </div>
 
             <p class="direitos">
-                VerificaBoleto-2026 - Todos os direitos reservados.
+                Bradesco VerificaBoleto-2026 - Todos os direitos reservados.
             </p>
 
         </footer>
