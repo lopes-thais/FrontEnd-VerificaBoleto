@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style-chat.css">
 
     <link rel="icon" type="image/png" href="./imagens/favicon-bradesco.png">
 
@@ -16,7 +17,7 @@
 
 <body>
 
-    <header id="#inicio">
+    <header id="inicio">
 
         <div class="logo">
             <img src="./imagens/icone-bradesco.png" alt="Ícone Bradesco" id="icone-logo" style="height: 70px;">
@@ -24,7 +25,7 @@
         </div>
             <nav>                
                     <a href="#verificar" aria-label="Ir para formulário de verificação de boleto">Verificar</a>
-                    <a href="#" aria-label="Ir para vídeo sobre pagamentos de boleto com segurança">Segurança</a>
+                    <!--<a href="#" aria-label="Ir para vídeo sobre pagamentos de boleto com segurança">Segurança</a>-->
                     <a href="#sobre" aria-label="Ir para seção sobre o projeto">Sobre</a>
             </nav>
 
@@ -138,13 +139,13 @@
                         </div>
 
                         <div class="linhaResultadoExtraido">
-                            <strong>CPF/CNPJ Beneficiário:</strong>
+                            <strong>CNPJ Beneficiário:</strong>
                             <span id="cnpj"></span>
                         </div>
 
                     </div>
 
-                    <button class="btn-verificar" onclick="verificarPdf()">Verificar Boleto</button>
+                    <button class="btn-verificar" onclick="verificarPdf(event)">Verificar Boleto</button>
 
                 </div>
             </div>
@@ -264,6 +265,60 @@
             </p>
 
         </footer>
-    <script src="script/script.js"></script>
+
+    <button id="btnChatbot" aria-label="Abrir Chat de Dúvidas">
+        <img src="/imagens/icone-chat.PNG" alt="Abrir Chat de Dúvidas" id="icone-chat" aria-label="Abrir Chat de Dúvidas">
+    </button>
+
+    <div id="overlay"></div>
+    <div id="painelChat">
+        <div class="topo-chat">
+            <h3>Chat de Dúvidas</h3>
+            <button id="btn-sair" onclick="fecharChat()">
+                <img src="/imagens/icone-sair.PNG" alt="Fechar chat" id="icone-sair" aria-label="Fechar Chat de Dúvidas">
+            </button>
+        </div>
+
+        <div class="conteudo-chat">
+        
+            <div class="mensagens-chatbot">
+                <strong>Assistente Virtual</strong>
+
+                <div class="mensagem">
+                    <p> Olá! Tudo bem? Sou o assistente virtual do verifica boleto! 
+                        Estou aqui para tirar dúvidas sobre boletos e te ajudar a não cair em um golpe. 
+                        Como posso ajudar?
+                    </p>
+                </div>
+                
+            </div>
+
+            <div class="mensagem-usuario">
+                    <p>Quais informações eu preciso para verificar um boleto?</p>
+            </div>
+
+            <div class="mensagens-chatbot">
+                <strong>Assistente Virtual</strong>
+                    <div class="mensagem">
+                        <p> Para verificar um boleto, você precisa informar a linha digitável, 
+                            o CPF/CNPJ do beneficiário, a data de vencimento e o valor do boleto. 
+                            Com essas informações, podemos analisar a autenticidade do boleto e detectar possíveis fraudes.</p>
+                    </div>
+            </div>
+        </div>
+
+            <div id="input-chat">
+                
+                <input type="text" id="inputChat" placeholder="Digite sua dúvida aqui...">
+
+                <button id="btn-enviar" aria-label="Enviar mensagem" onclick="enviarPergunta()">
+                    <img src="/imagens/icone-enviar.PNG" alt="Enviar mensagem" id="icone-enviar" aria-label="Enviar mensagem">
+                </button>
+                                
+            </div>
+    </div>
+
+        <script src="script/script.js"></script>
+        <script src="script/script-chat.js"></script>
 </body>
 </html>

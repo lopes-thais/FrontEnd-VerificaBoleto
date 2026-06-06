@@ -96,10 +96,12 @@ input.addEventListener("change", async () => {
 
         document.getElementById("linhaDigitavel").textContent = dados.linhaDigitavel || "-";
         document.getElementById("valorBoletoResultado").textContent = dados.valor || "-";
-        document.getElementById("vencimentoResultado").textContent = dados.vencimento || "-";
-        document.getElementById("cnpj").textContent = dados.cnpj || "-";
+        document.getElementById("vencimentoResultado").textContent = dados.dataVencimento ? dados.dataVencimento.split("-").reverse().join("/"): "-";
+        document.getElementById("cnpj").textContent = dados.beneficiario?.cnpj || "-";
 
         window.dadosPdf = dados;
+
+
 
     } catch (erro) {
 
@@ -111,6 +113,110 @@ input.addEventListener("change", async () => {
         botaoPdf.innerHTML = "Verificar Boleto";
     }
 });
+
+async function verificarPdf(e) {
+    
+    if (e && typeof e.preventDefault === "function") e.preventDefault();
+
+    const textoArquivo = document.getElementById("nomeArquivo");
+    const dados = window.dadosPdf;
+
+    if (!dados) {
+        textoArquivo.textContent = "Faça o upload de um PDF válido antes de verificar.";
+        textoArquivo.style.color = "red"; 
+        textoArquivo.style.fontWeight = "bold";
+        textoArquivo.style.fontSize = "14px";
+        textoArquivo.style.fontFamily = "Arial, sans-serif";
+        return;
+    }
+
+    const botaoPdf = document.querySelector("#conteudo-pdf .btn-verificar");
+    botaoPdf.disabled = true;
+    botaoPdf.innerHTML = `
+        <div class="loading-btn">
+            <div class="spinner-btn"></div>
+            <span>Analisando...</span>
+        </div>
+    `;
+
+    const dadosLinha = parseLinhaDigitavel(dados.linhaDigitavel);
+
+    try {
+        const body = {
+            linhaDigitavel: dados.linhaDigitavel,
+            valor: dados.valor,
+            dataVencimento: dados.dataVencimento, 
+            beneficiario: {
+            cnpj: dados.beneficiario?.cnpj || ""
+            }
+        };
+
+        const resposta = await fetch("https://verificaboleto.onrender.com/boletos/analise", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+
+        if (resposta.status === 400) {
+
+            const verificacoesNaoEncontrado = [
+                {
+                    nome: "Valor do boleto",
+                    valorBanco: "Não encontrado",
+                    valorInformado: dados.valor,
+                    ok: null
+                },
+                {
+                    nome: "Data de vencimento",
+                    valorBanco: "Não encontrado",
+                    valorInformado: dados.dataVencimento,
+                    ok: null
+                },
+                {
+                    nome: "CNPJ do beneficiário",
+                    valorBanco: "Não encontrado",
+                    valorInformado: dados.beneficiario?.cnpj || "",
+                    ok: null
+                },
+                {
+                    nome: "Razão social",
+                    valorBanco: "Não encontrado",
+                    ok: null
+                }
+            ];
+
+            mostrarResultado(
+                "naoEncontrado",
+                body,
+                dadosLinha,
+                0,
+                verificacoesNaoEncontrado
+            );
+
+            return;
+        }
+
+        const resultado = await resposta.json();
+        const status = resultado.status || "naoEncontrado";
+        
+        let score = status === "Seguro" ? 15 : status === "Suspeito" ? 65 : status === "Fraude" ? 95 : 0;
+
+        mostrarResultado(
+            status,
+            body,
+            dadosLinha,
+            score,
+            resultado.verificacoes
+        );
+
+    } catch (erro) {
+        console.error("ERRO FETCH PDF:", erro);
+        alert("Erro de comunicação com o servidor");
+    } finally {
+        botaoPdf.disabled = false;
+        botaoPdf.innerHTML = "Verificar Boleto";
+    }
+}
 
 function montarPayload() {
 
@@ -133,7 +239,6 @@ function montarPayload() {
     const [dia, mes, ano] = vencimento.split("/");
     const dataFormatada = `${ano}-${mes}-${dia}`;
 
-    // limpa CNPJ
     const cnpjLimpo = cnpj.replace(/\D/g, "");
 
     return {
@@ -141,32 +246,9 @@ function montarPayload() {
         valor: valorNumerico,
         dataVencimento: dataFormatada,
         beneficiario: {
-            cnpj: cnpjLimpo
+        cnpj: cnpjLimpo
         }
     };
-}
-
-
-async function verificarPdf(){
-
-    const botao = document.querySelector("#conteudo-pdf .btn-verificar");
-
-    botao.disabled = true;
-
-    botao.innerHTML = `
-        <div class="loading-btn">
-            <div class="spinner-btn"></div>
-            <span>Analisando boleto...</span>
-        </div>
-    `;
-
-    const resposta = await fetch("https://verificaboleto.onrender.com/pdf/extrair", {
-        method: "POST",
-        body: formData
-    });
-
-    const resultado = await resposta.json();
-
 }
 
 async function envioBack() {
@@ -190,7 +272,32 @@ async function envioBack() {
     return resultado;
 }
 
-function mostrarResultado(status, dadosUsuario, dadosLinha, score=0) {
+function formatarData(data) {
+    if (!data) return data;
+
+    const partes = data.split("-");
+
+    if (partes.length === 3) {
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    return data;
+}
+
+function formatarCNPJ(cnpj) {
+    if (!cnpj) return cnpj;
+
+    cnpj = cnpj.replace(/\D/g, "");
+
+    if (cnpj.length !== 14) return cnpj;
+
+    return cnpj.replace(
+        /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
+        "$1.$2.$3/$4-$5"
+    );
+}
+
+function mostrarResultado(status, dadosUsuario, dadosLinha, score=0, verificacoes=[], resposta=null) {
 
     const painel = document.getElementById("painelResultado");
 
@@ -198,7 +305,7 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0) {
     let corScore = "#6c757d";
     let textoClassificacao = "Desconhecido";
     let iconeScore = "./imagens/score-suspeito.PNG";
-    
+    let icone = "";    
 
     // 1. status vindo do backend tem prioridade
     if (status === "naoEncontrado") {
@@ -214,9 +321,7 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0) {
             corScore = "#4e974e";
             textoClassificacao = "Seguro";
             iconeScore = "./imagens/score-bom.PNG";
-            mensagem = "O boleto não apresenta indícios de falsificação! É seguro realizar o pagamento.";
-            
-            
+            mensagem = "O boleto não apresenta indícios de falsificação! É seguro realizar o pagamento.";            
 
         } else if (status == "Suspeito") {
             corScore = "#d37408";
@@ -225,7 +330,7 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0) {
             mensagem = "O boleto apresenta inconsistências. Recomendamos não realizar o pagamento e entrar em contato com a instituição financeira.";
             
 
-        } else if (status == "Fraude"){
+        } else if (status == "Fraude") {
             corScore = "#c62828";
             textoClassificacao = "Falso";
             iconeScore = "./imagens/score-fraude.PNG";
@@ -234,11 +339,67 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0) {
         }
     }
 
+
+    let htmlVerificacoes = "";
+
+    verificacoes.forEach(v => {
+
+        const temComparacao = v.valorInformado && v.valorInformado !== "Não informado" && v.valorInformado !== "Não informada";
+        const icone = temComparacao ? (v.ok ? "/imagens/icone-dado-ok.PNG" : "/imagens/icone-dado-divergente.PNG"): "";
+
+        if (v.nome === "Banco emissor confere") {
+            return;
+        }
+
+        let valorBanco = v.valorBanco;
+        let valorInformado = v.valorInformado;
+
+        if (v.nome === "Data de vencimento confere") {
+            valorBanco = formatarData(valorBanco);
+            valorInformado = formatarData(valorInformado);
+        }
+
+        if (v.nome === "CNPJ do beneficiário válido") {
+            valorBanco = formatarCNPJ(valorBanco);
+            valorInformado = formatarCNPJ(valorInformado);
+        }
+
+        const confRazaoSocial = v.nome === "Razão social confere";
+        let textoComparacao = confRazaoSocial ? valorBanco: `Cadastrado: ${valorBanco}`;
+
+        const classeLinha = v.nome === "Razão social confere" ? "linha-razao-social" : "";
+        //let textoComparacao = `Cadastrado: ${valorBanco}`;
+
+        if (
+            valorInformado &&
+            valorInformado !== "Não informado" &&
+            valorInformado !== "Não informada"
+        ) {
+            textoComparacao += ` • Informado: ${valorInformado}`;
+        }
+
+
+        htmlVerificacoes += `                
+
+                <div class="linhaResultado ${classeLinha}">
+                        
+                    <div class="espaco-icone">
+                        ${temComparacao ? `<img src="${icone}" class="comparacao-icone">`: "" }
+                    </div>
+
+                    <div class="conteudoComparacao">
+                       
+                        <strong>${v.nome}</strong>
+                        <span>${textoComparacao}</span>
+                    </div>
+                </div>
+        `;
+    });
+
     painel.innerHTML = `
         <div class="resultado ${status.toLowerCase()}">
 
             <div class="scoreChat">
-
                 <div class="score" style="border: 2px solid ${corScore}; background-color: ${corScore}60;">
 
                     <img class="icone-score" src="${iconeScore}" />
@@ -247,7 +408,7 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0) {
                         <strong>Boleto ${textoClassificacao}</strong>
 
                         <span style="color:${corScore}">
-                            Risco de pagamento: ${score}%
+                            Risco de fraude: ${score}%
                         </span>
 
                         <div class="barra-score">
@@ -265,39 +426,12 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0) {
             </p>
 
             <div class="resultadoLista">
-
-                <div class="linhaResultado"> 
-                    <strong>Linha Digitável:</strong> 
-                    <span>${dadosLinha.linhaCompleta}</span> 
-                </div>
-
-                <div class="linhaResultado"> 
-                    <strong>Vencimento informado pelo usuário:</strong> 
-                    <span>${dadosUsuario.dataVencimento || dadosUsuario.vencimento}</span> 
-                </div>
-
-                <div class="linhaResultado"> 
-                    <strong>Valor informado pelo usuário:</strong> 
-                    <span>${dadosUsuario.valor}</span>
-                </div>
-
-                <div class="linhaResultado"> 
-                    <strong>Valor na linha digitável:</strong> 
-                    <span>${dadosLinha.valorBoleto}</span>
-                </div> 
-
-                <div class="linhaResultado"> 
-                    <strong>CNPJ Beneficiário informado pelo usuário:</strong> 
-                    <span>${dadosUsuario.beneficiario?.cnpj || dadosUsuario.cpf}</span> 
-                </div>
-
+                    ${htmlVerificacoes}
             </div>
-
+                
+             
             <div class="chat">
-                <button class="btn-chat">
-                    Dúvidas?<br>
-                    Entre em contato pelo chat!
-                </button>
+                <button class="btn-chat" onclick="abrirChat()">Dúvidas? Entre em contato pelo chat!</button>
             </div>
 
         </div>
@@ -336,8 +470,44 @@ async function verificar() {
     if (valor.value.trim() === "") {
         document.getElementById("erroValor").textContent = "Preencha este campo";
         valido = false;
+    } else {
+        
+        const dadosLinha = parseLinhaDigitavel(codigo.value);        
+        
+        if (!dadosLinha.valida) {            
+            document.getElementById("erroCodigo").textContent = dadosLinha.mensagem;
+            valido = false;
+        }
     }
 
+    //const cpfLimpo = cpf.value.replace(/\D/g, ""); 
+    if (cpf.value.trim() === "") {
+        document.getElementById("erroCpf").textContent = "Preencha este campo";
+        valido = false;
+    } else if (cpf.value.replace(/\D/g, "").length !== 11 && cpf.value.replace(/\D/g, "").length !== 14) {
+        document.getElementById("erroCpf").textContent = "Digite um CPF válido (11 números) ou CNPJ (14 números).";
+        valido = false;
+    }
+
+   //verificar se a data inserida é valida
+    const regexData = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (vencimento.value.trim() === "") {
+        document.getElementById("erroVencimento").textContent = "Preencha este campo";
+        valido = false;
+    } else if (!regexData.test(vencimento.value.trim())) {
+        document.getElementById("erroVencimento").textContent = "Formato inválido. Use dd/mm/aaaa";
+        valido = false;
+    } else {
+        
+        const [dia, mes, ano] = vencimento.value.split("/");
+        const dataObj = new Date(ano, mes - 1, dia);
+        
+        if (dataObj.getFullYear() != ano || dataObj.getMonth() != mes - 1 || dataObj.getDate() != dia) {
+            document.getElementById("erroVencimento").textContent = "Data inválida. Verifique o dia e o mês.";
+            valido = false;
+        }
+    }
+    
     if (!valido) return;
 
     const dadosLinha = parseLinhaDigitavel(codigo.value);
@@ -396,42 +566,70 @@ async function verificar() {
 
         if (resposta.status === 400) {
 
-            mostrarResultado(
-                "naoEncontrado",
-                body,
-                dadosLinha
-            );
+            const verificacoesNaoEncontrado = [
+                {
+                    nome: "Valor do boleto",
+                    valorBanco: "Não encontrado",
+                    valorInformado: valor.value,
+                    ok: null
+                },
+                {
+                    nome: "Data de vencimento",
+                    valorBanco: "Não encontrado",
+                    valorInformado: vencimento.value,
+                    ok: null
+                },
+                {
+                    nome: "CNPJ do beneficiário",
+                    valorBanco: "Não encontrado",
+                    valorInformado: cpf.value,
+                    ok: null
+                },
+                {
+                    "nome": "Razão social confere",
+                    "ok": null,
+                    "valorBanco": "Não encontrado"
+                }
+            ];   
+                 mostrarResultado(    
+                    "naoEncontrado",
+                    body,
+                    dadosLinha,
+                    0,
+                    verificacoesNaoEncontrado
+                );
 
             return;
         }
 
         const resultado = await resposta.json();
-
         console.log(JSON.stringify(resultado, null, 2));
-
         console.log("RETORNO BACK:", resultado);
 
         const status = resultado.status || "naoEncontrado";
-        let score = 0;
+        let score = resultado.scoreRisco;
 
-        if (status === "Seguro") {
+        if (score == null){
+            if (status === "Seguro") {
             score = 15;
-        }
-        else if (status === "Suspeito") {
-            score = 65;
-        }
-        else if (status === "Fraude") {
-            score = 95;
-        }
-        else {
-            score = 0;
-        }
+            }
+            else if (status === "Suspeito") {
+                score = 65;
+            }
+            else if (status === "Fraude") {
+                score = 95;
+            }
+            else {
+                score = 0;
+            }
+        }       
 
         mostrarResultado(
             status,
             body,
             dadosLinha,
-            score
+            score,
+            resultado.verificacoes
         );
 
     } catch (erro) {
@@ -533,20 +731,20 @@ codigoInput.addEventListener("input", () => {
 
 
 function limparCampos() {
-  document.getElementById("codigoBarras").value = "";
-  document.getElementById("cpfCnpj").value = "";
-  document.getElementById("vencimento").value = "";
-  document.getElementById("valorBoletoInput").value = "";
+    document.getElementById("codigoBarras").value = "";
+    document.getElementById("cpfCnpj").value = "";
+    document.getElementById("vencimento").value = "";
+    document.getElementById("valorBoletoInput").value = "";
 
-//limpar mensagens de erro e bordas vermelhas
-  document.getElementById("codigoBarras").style.border = "";
-  document.getElementById("cpfCnpj").style.border = "";
-  document.getElementById("vencimento").style.border = "";
-  document.getElementById("valorBoletoInput").style.border = "";
-  document.getElementById("erroCodigo").innerText = "";
-  document.getElementById("erroCpf").innerText = "";
-  document.getElementById("erroVencimento").innerText = "";
-  document.getElementById("erroValor").innerText = "";
+    //limpar mensagens de erro e bordas vermelhas
+    document.getElementById("codigoBarras").style.border = "";
+    document.getElementById("cpfCnpj").style.border = "";
+    document.getElementById("vencimento").style.border = "";
+    document.getElementById("valorBoletoInput").style.border = "";
+    document.getElementById("erroCodigo").innerText = "";
+    document.getElementById("erroCpf").innerText = "";
+    document.getElementById("erroVencimento").innerText = "";
+    document.getElementById("erroValor").innerText = "";
 }
 
 function parseLinhaDigitavel(linha) {
@@ -562,7 +760,7 @@ function parseLinhaDigitavel(linha) {
 
     const linhaLimpa = linha.replace(/\D/g, "");
 
-    /*
+    
         if(linhaLimpa.length !== 47){
 
         return {
@@ -570,7 +768,7 @@ function parseLinhaDigitavel(linha) {
             mensagem: "Linha digitável inválida."
         };
     }
-        */
+        
 
     const valorBruto = parseFloat(linhaLimpa.substring(37, 47));
     let valorFormatado = "";
@@ -586,7 +784,6 @@ function parseLinhaDigitavel(linha) {
     }
 
     return {
-
         valida: true,
         linhaCompleta: linhaLimpa,
         codigoBanco: linhaLimpa.substring(0,3),

@@ -78,7 +78,7 @@ main {
     width: 100%;         /* ocupa toda a largura do container */
     margin: 0;           /* não centraliza sozinho */
     padding: 30px;
-    border-radius: 20px;
+    border-radius: 30px;
 
     flex-direction: column;
     align-items: center;
@@ -118,8 +118,8 @@ section {
     padding: 22px;          
     border: 2px solid rgb(121, 4, 4);
     border-top: none;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
     background-color: #fff;
     box-shadow: 0 8px 25px #46464662;
     padding-bottom: 30px;
@@ -128,7 +128,6 @@ section {
 .botoes{
     display: flex;
     width: 100%;
-    
 }
 
 .botoes,
@@ -172,11 +171,11 @@ section {
 }
 
 .botoes button:first-child {
-    border-top-left-radius: 20px;
+    border-top-left-radius: 30px;
 }
 
 .botoes button:last-child {
-    border-top-right-radius: 20px;
+    border-top-right-radius: 30px;
 }
 
 
@@ -224,7 +223,6 @@ input:focus {
     border-color: #c01a30;
     box-shadow: 0 0 5px rgba(182, 21, 42, 0.404);
     transform: scale(1.01); /* aumenta um pouco o tamanho do link */
-    
 }
 
 #conteudo-pdf {
@@ -236,9 +234,11 @@ input:focus {
 
 }
 
-#nomeArquivo {
+.info-arquivo #nomeArquivo {
     font-size: 14px;
     color: #555;
+    text-align: center;
+    justify-content: center;
 }
 
 .area-remover{
@@ -275,11 +275,12 @@ input:focus {
 .conteudo {
     display: flex;
     gap: 30px;
-    align-items: flex-start;
+    align-items: stretch;
     width: 100%;
+    margin-bottom: 30px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
 
     .conteudo {
         flex-direction: column;
@@ -292,40 +293,45 @@ input:focus {
 }
 
 section {
-    width: 100%;
+    flex: 4;
     margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    max-width: none;
 }
 
 aside {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-width: 700px;     
+       
     margin-top: 30px;       
     border: 2px solid rgb(121, 4, 4);
-    border-radius: 20px;
+    border-radius: 30px;
     background-color: #fff;
     box-shadow: 0 8px 25px #46464662;
     padding-bottom: 30px;
     overflow: hidden;
     padding: 20px;
+
+    flex: 4;
+    max-width: none;
 }
 
 aside h3{
     color: rgb(121, 4, 4);
-    font-size: 28px;
+    font-size: 24px;
     text-align: center;
 }
 
 aside p{
     text-align: center;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 aside .dica{
     color:rgb(121, 4, 4);
     background-color:#c01a3057;
-    border-radius: 5px;
+    border-radius: 10px;
     text-align: left;
     padding-left: 10px;
 
@@ -356,6 +362,7 @@ aside > img{
     align-items: center;
     gap: 15px; 
     margin-bottom: 2px;
+    padding: 10px;
 }
 
 #sobre {
@@ -609,6 +616,22 @@ footer{
     gap: 15px;
 }
 
+.linhaResultadoExtraido strong,
+.linhaResultado strong {
+    color: #222;
+    font-size: 15px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.linhaResultado span,
+.linhaResultadoExtraido span {
+    color: #666;
+    font-size: 13px;
+    text-align: right;
+    line-height: 1.5;
+}
+
 .linhaResultadoExtraido:last-child{
     border-bottom: none;
 }
@@ -617,6 +640,11 @@ footer{
     color: #5f5f5f;
     font-size: 14px;
     text-align: right;
+
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;      
+    text-overflow: ellipsis;
 }
 
 .linhaResultadoExtraido strong{
@@ -624,22 +652,6 @@ footer{
     font-size: 15px;
 }
 
-/*
-.verdadeiro{
-    background-color: #a0f3a0;
-    box-shadow: 0 0 5px rgba(21, 182, 29, 0.473);
-}
-
-.suspeito{
-    background-color: #f1e36a;
-    box-shadow: 0 0 5px rgba(241, 227, 106, 0.473);
-}
-
-.falso{
-    background-color: #f3a0a0;
-    box-shadow: 0 0 5px rgba(182, 21, 42, 0.404);
-}
-*/
 .resultadoItem {
     width: 100%;
     padding: 10px;
@@ -654,48 +666,6 @@ footer{
     align-items: center;
     gap: 10px;
 }
-
-/*
-.verdadeiro h3{
-    color: rgb(12, 94, 16);
-    margin: 0;
-}*/
-
-.recomendacaoVerdadeiro{
-    font-size: 16px;
-    margin: 0;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-/*
-.suspeito h3{
-    color: rgb(95, 83, 27);
-    margin: 0;
-}
-
-.resultado img{
-    width: 40px;
-}
-
-.falso h3{
-    color: rgb(121, 4, 4);
-    margin: 0;
-}
-
-.verdadeiro,
-.suspeito,
-.falso{
-    border-radius: 10px;
-    padding: 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-
-    margin-bottom: 15px;
-}
-*/
 
 .score{
     flex: 1.2;
@@ -723,7 +693,7 @@ footer{
 
 .recomendacao {
     margin: 0;
-    font-size: 16px;
+    font-size: 15px;
     text-align: center;
     font-weight: 600;
     margin-bottom: 5px;
@@ -844,13 +814,13 @@ footer{
 }
 
 .linhaResultado{
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    display:flex;
+    align-items:flex-start;
 
     padding: 12px 15px;
     border-bottom: 1px solid #eee;
-    gap: 15px;
+    gap:20px;
 }
 
 .linhaResultado:last-child{
@@ -859,13 +829,15 @@ footer{
 
 .linhaResultado strong{
     color: #222;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .linhaResultado span{
     color: #666;
-    font-size: 14px;
-    text-align: right;
+    font-size: 13px;
+    justify-content: right;
+    align-items: left;
+    margin-right: 10px;
 }
 
 .link-git{   
@@ -950,11 +922,10 @@ footer{
     align-items: center;
     gap: 12px;
 
-    padding: 12px;
+    padding: 10px;
     border: 2px solid #c25664ab;
     border-radius: 10px;
     background-color:rgba(182,21,42,0.08);
-    margin-bottom: 2px;
 }
 
 .scoreChat{
@@ -1021,10 +992,10 @@ footer{
     display: flex;
     align-items: center;
     justify-content:center;
-    margin-top: 17px;
+    margin-top: 10px;
 
     text-align: center;
-    padding: 15px;
+    padding: 13px;
     box-shadow: 0 4px 10px #46464662;
 }
 
@@ -1048,3 +1019,50 @@ footer{
     border-radius: 20px;
     transition: width 0.8s ease;
 }
+
+.conteudoComparacao{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.conteudoComparacao strong{
+    color: #222;
+    font-size: 15px;
+}
+
+.conteudoComparacao span{
+    color: #666;
+    font-size: 14px;
+    text-align: left;
+}
+
+.comparacao-icone{
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.espaco-icone{
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.linha-razao-social 
+.conteudoComparacao{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.linha-razao-social span{
+    max-width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
