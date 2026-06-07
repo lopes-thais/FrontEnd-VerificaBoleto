@@ -345,7 +345,7 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0, verificacoe
     verificacoes.forEach(v => {
 
         const temComparacao = v.valorInformado && v.valorInformado !== "Não informado" && v.valorInformado !== "Não informada";
-        const icone = temComparacao ? (v.ok ? "/imagens/icone-dado-ok.PNG" : "/imagens/icone-dado-divergente.PNG"): "";
+        const icone = temComparacao ? (v.ok ? "./imagens/icone-dado-ok.PNG" : "./imagens/icone-dado-divergente.PNG"): "";
 
         if (v.nome === "Banco emissor confere") {
             return;
