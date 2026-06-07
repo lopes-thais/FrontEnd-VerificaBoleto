@@ -162,7 +162,7 @@ async function verificarPdf(e) {
             const verificacoesNaoEncontrado = [
                 {
                     nome: "Valor do boleto",
-                    valorBanco: "Não encontrado",
+                    valorBanco: dadosLinha.valorBoleto,
                     valorInformado: dados.valor,
                     ok: null
                 },
@@ -364,10 +364,10 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0, verificacoe
             valorInformado = formatarCNPJ(valorInformado);
         }
 
-        const confRazaoSocial = v.nome === "Razão social confere";
+        const confRazaoSocial = v.nome === "Razão social";
         let textoComparacao = confRazaoSocial ? valorBanco: `Cadastrado: ${valorBanco}`;
 
-        const classeLinha = v.nome === "Razão social confere" ? "linha-razao-social" : "";
+        const classeLinha = v.nome === "Razão social" ? "linha-razao-social" : "";
         const textoIcone = v.ok ? "Dado confere" : "Dado divergente";
 
         if (
@@ -573,7 +573,7 @@ async function verificar() {
             const verificacoesNaoEncontrado = [
                 {
                     nome: "Valor do boleto",
-                    valorBanco: "Não encontrado",
+                    valorBanco: dadosLinha.valorBoleto,
                     valorInformado: valor.value,
                     ok: null
                 },
@@ -590,7 +590,7 @@ async function verificar() {
                     ok: null
                 },
                 {
-                    "nome": "Razão social confere",
+                    "nome": "Razão social",
                     "ok": null,
                     "valorBanco": "Não encontrado"
                 }
