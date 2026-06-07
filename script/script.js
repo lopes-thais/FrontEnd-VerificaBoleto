@@ -87,12 +87,12 @@ input.addEventListener("change", async () => {
             body: formData    
         });
 
-        console.log("STATUS:", resposta.status);
-        console.log("OK:", resposta.ok);
+       // console.log("STATUS:", resposta.status);
+       // console.log("OK:", resposta.ok);
 
         const dados = await resposta.json();
 
-        console.log("PDF EXTRAÍDO:", dados);
+        //console.log("PDF EXTRAÍDO:", dados);
 
         document.getElementById("linhaDigitavel").textContent = dados.linhaDigitavel || "-";
         document.getElementById("valorBoletoResultado").textContent = dados.valor || "-";
@@ -255,7 +255,7 @@ async function envioBack() {
 
     const body = montarPayload();
 
-    console.log("ENVIANDO PRO BACK:", body);
+    //console.log("ENVIANDO PRO BACK:", body);
 
     const resposta = await fetch("https://verificaboleto.onrender.com/boletos/analise", {
         method: "POST",
@@ -267,7 +267,7 @@ async function envioBack() {
 
     const resultado = await resposta.json();
 
-    console.log("RETORNO:", resultado);
+    //console.log("RETORNO:", resultado);
 
     return resultado;
 }
@@ -607,8 +607,8 @@ async function verificar() {
         }
 
         const resultado = await resposta.json();
-        console.log(JSON.stringify(resultado, null, 2));
-        console.log("RETORNO BACK:", resultado);
+        //console.log(JSON.stringify(resultado, null, 2));
+        //console.log("RETORNO BACK:", resultado);
 
         const status = resultado.status || "naoEncontrado";
         let score = resultado.scoreRisco;
