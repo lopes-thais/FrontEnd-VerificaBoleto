@@ -368,7 +368,7 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0, verificacoe
         let textoComparacao = confRazaoSocial ? valorBanco: `Cadastrado: ${valorBanco}`;
 
         const classeLinha = v.nome === "Razão social confere" ? "linha-razao-social" : "";
-        //let textoComparacao = `Cadastrado: ${valorBanco}`;
+        const textoIcone = v.ok ? "Dado confere" : "Dado divergente";
 
         if (
             valorInformado &&
@@ -384,7 +384,7 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0, verificacoe
                 <div class="linhaResultado ${classeLinha}">
                         
                     <div class="espaco-icone">
-                        ${temComparacao ? `<img src="${icone}" class="comparacao-icone">`: "" }
+                        ${temComparacao ? `<img src="${icone}" class="comparacao-icone" alt="${textoIcone}">`: "" }
                     </div>
 
                     <div class="conteudoComparacao">
@@ -402,7 +402,7 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0, verificacoe
             <div class="scoreChat">
                 <div class="score" style="border: 2px solid ${corScore}; background-color: ${corScore}60;">
 
-                    <img class="icone-score" src="${iconeScore}" />
+                    <img class="icone-score" alt="Classificação: ${textoClassificacao}" src="${iconeScore}" />
 
                     <div class="texto-score">
                         <strong>Boleto ${textoClassificacao}</strong>
@@ -411,7 +411,11 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0, verificacoe
                             Risco de fraude: ${score}%
                         </span>
 
-                        <div class="barra-score">
+                        <div class="barra-score" role="progressbar"
+                                aria-valuenow="${score}"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                aria-label="Risco de fraude">
                             <div class="barra-score-preenchida"
                                 style="width:${score}%; background:${corScore};">
                             </div>

@@ -43,8 +43,8 @@
 
             <div class="botoes">
 
-                    <button class="btn ativo" onclick="mostrarCodigo(this)">Digitar Código de Barras</button>
-                    <button class="btn" onclick="mostrarPdf(this)">Inserir Arquivo PDF</button>
+                <button class="btn ativo" onclick="mostrarCodigo(this)" aria-label="Digitar código de barras">Digitar Código de Barras</button>
+                <button class="btn" onclick="mostrarPdf(this)" aria-label="Inserir arquivo pdf do boleto">Inserir Arquivo PDF</button>
                     
             </div>
 
@@ -62,7 +62,7 @@
                         />
                     </div>
                     
-                <div class="mensagem-erro" id="erroCodigo"></div>
+                <div class="mensagem-erro" id="erroCodigo" aria-live="polite"></div>
 
 
             <label for="cpfCnpj">Digite o CPF/CNPJ do beneficiário:</label>
@@ -71,7 +71,7 @@
                 id="cpfCnpj"
                 placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-90"  
             />            
-            <div class="mensagem-erro" id="erroCpf"></div>
+            <div class="mensagem-erro" id="erroCpf" aria-live="polite"></div>
 
             <label for="vencimento">Digite a data de vencimento:</label>
             <input 
@@ -79,16 +79,15 @@
                 id="vencimento"
                 placeholder="Ex: dd/mm/aaaa" 
             />
-            <div class="mensagem-erro" id="erroVencimento"></div>
+            <div class="mensagem-erro" id="erroVencimento" aria-live="polite"></div>
 
             <label for="valorBoletoInput">Digite o valor do boleto:</label>
             <input 
                 type="text" 
                 id="valorBoletoInput"
                 placeholder="Ex: R$ 123,45" 
-            />
-            
-            <div class="mensagem-erro" id="erroValor"></div>
+            /> 
+            <div class="mensagem-erro" id="erroValor" aria-live="polite"></div>
                     
                     <div style="display:flex; gap:10px;">
                         <button class="btn-verificar" onclick="verificar()">Verificar Boleto</button>
@@ -102,7 +101,7 @@
                     <label for="fileInput" class="box-upload">
                         
                         <img src="./imagens/icone-upload.png" alt="Icone de upload" id="icone-upload">
-                        <input type="file" id="fileInput" hidden>
+                        <input type="file" id="fileInput" hidden aria-label="Selecionar arquivo pdf">
 
                         <p>Clique para inserir o arquivo PDF</p>
 
@@ -230,9 +229,7 @@
                         </div>
                     </a>                    
 
-                    <a href="faq.html" class="link-faq">
-                        Perguntas Frequentes
-                    </a>
+                    <a href="faq.html" class="link-faq" style="padding-left: 20px">Perguntas Frequentes</a>
 
                 </div>
 
@@ -267,15 +264,15 @@
         </footer>
 
     <button id="btnChatbot" aria-label="Abrir Chat de Dúvidas">
-        <img src="/imagens/icone-chat.PNG" alt="Abrir Chat de Dúvidas" id="icone-chat" aria-label="Abrir Chat de Dúvidas">
+        <img src="/imagens/icone-chat.PNG" alt="" id="icone-chat">
     </button>
 
     <div id="overlay"></div>
     <div id="painelChat">
         <div class="topo-chat">
             <h3>Chat de Dúvidas</h3>
-            <button id="btn-sair" onclick="fecharChat()">
-                <img src="/imagens/icone-sair.PNG" alt="Fechar chat" id="icone-sair" aria-label="Fechar Chat de Dúvidas">
+            <button id="btn-sair" onclick="fecharChat()" aria-label="Fechar Chat de Dúvidas">
+                <img src="/imagens/icone-sair.PNG" alt="" id="icone-sair" >
             </button>
         </div>
 
@@ -285,34 +282,21 @@
                 <strong>Assistente Virtual</strong>
 
                 <div class="mensagem">
-                    <p> Olá! Tudo bem? Sou o assistente virtual do verifica boleto! 
-                        Estou aqui para tirar dúvidas sobre boletos e te ajudar a não cair em um golpe. 
-                        Como posso ajudar?
+                    <p> Olá! Esse é o Chat para tirar dúvidas sobre boletos bancários e sobre o resultado da verificação!
+                        Digite sua dúvida e nosso ChatBot irá te ajudar!
                     </p>
                 </div>
                 
             </div>
 
-            <div class="mensagem-usuario">
-                    <p>Quais informações eu preciso para verificar um boleto?</p>
-            </div>
-
-            <div class="mensagens-chatbot">
-                <strong>Assistente Virtual</strong>
-                    <div class="mensagem">
-                        <p> Para verificar um boleto, você precisa informar a linha digitável, 
-                            o CPF/CNPJ do beneficiário, a data de vencimento e o valor do boleto. 
-                            Com essas informações, podemos analisar a autenticidade do boleto e detectar possíveis fraudes.</p>
-                    </div>
-            </div>
         </div>
 
             <div id="input-chat">
                 
-                <input type="text" id="inputChat" placeholder="Digite sua dúvida aqui...">
+                <input type="text" id="inputChat" placeholder="Digite sua dúvida aqui..." aria-label="Digite sua dúvida">
 
                 <button id="btn-enviar" aria-label="Enviar mensagem" onclick="enviarPergunta()">
-                    <img src="/imagens/icone-enviar.PNG" alt="Enviar mensagem" id="icone-enviar" aria-label="Enviar mensagem">
+                    <img src="/imagens/icone-enviar.PNG" alt="" id="icone-enviar">
                 </button>
                                 
             </div>

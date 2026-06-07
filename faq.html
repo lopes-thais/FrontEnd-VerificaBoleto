@@ -10,9 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css">
 
-    <link rel="icon" type="image/png" href="./imagens/icone-bradesco.png">
+    <link rel="icon" type="image/png" href="./imagens/favicon-bradesco.png">
 
-</head>
     <style>
         main {            
             width: 100%;
@@ -77,6 +76,20 @@
             }
 
         }
+
+        .faq-question {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+
+            font: inherit;
+            color: inherit;
+            text-align: left;
+
+            cursor: pointer;
+            width: 100%;
+        }
         
     </style>
 </head>
@@ -100,60 +113,60 @@
 
     <main>
 
-        <div class="card">
-                <div class="faq-question">
+            <div class="card" >
+                <button class="faq-question" aria-expanded="false" aria-controls="faq1">
                     <h4>Como funciona a verificação do boleto?</h4>
-                </div>
-                <div class="faq-answer">O sistema analisa informações do boleto, como linha digitável, banco emissor, valores e inconsistências para identificar possíveis sinais de fraude.</div>
+                </button>
+                <div id="faq1" class="faq-answer">O sistema analisa informações do boleto, como linha digitável, banco emissor, valores e inconsistências para identificar possíveis sinais de fraude.</div>
             </div>
 
             <div class="card">
-                <div class="faq-question">
+                <button class="faq-question" aria-expanded="false" aria-controls="faq1">
                     <h4>Preciso preencher todos os campos para verificar o boleto?</h4>
-                </div>
-                <div class="faq-answer">Sim, todos os campos são necessários para a validação correta e para encontrar as possíveis divergências, sem eles não é possível verificar de maneira eficaz.</div>
+                </button>
+                <div id="faq2" class="faq-answer">Sim, todos os campos são necessários para a validação correta e para encontrar as possíveis divergências, sem eles não é possível verificar de maneira eficaz.</div>
             </div>
 
             <div class="card">
-                <div class="faq-question">
+                <button class="faq-question" aria-expanded="false" aria-controls="faq1">
                     <h4>O Verifica Boleto garante que os dados sejam válidos?</h4>
-                </div>
-                <div class="faq-answer">Não. A análise serve como apoio para identificação de indícios suspeitos, mas não substitui a verificação oficial do banco emissor. O Verifica Boleto ajuda a mostrar os dados divergentes.</div>
+                </button>
+                <div id="faq3" class="faq-answer">Não. A análise serve como apoio para identificação de indícios suspeitos, mas não substitui a verificação oficial do banco emissor. O Verifica Boleto ajuda a mostrar os dados divergentes.</div>
             </div> 
 
             <div class="card">
-                <div class="faq-question">
+                <button class="faq-question" aria-expanded="false" aria-controls="faq1">
                     <h4>O que devo fazer se o boleto for considerado suspeito?</h4>
-                </div>
-                <div class="faq-answer">Recomendamos entrar em contato com o emissor do boleto para confirmar a autenticidade antes de realizar qualquer pagamento. Evite pagar boletos que apresentem sinais de fraude.</div>
+                </button>
+                <div id="faq4" class="faq-answer">Recomendamos entrar em contato com o emissor do boleto para confirmar a autenticidade antes de realizar qualquer pagamento. Evite pagar boletos que apresentem sinais de fraude.</div>
             </div>
 
             <div class="card">
-                <div class="faq-question">
+                <button class="faq-question" aria-expanded="false" aria-controls="faq1">
                     <h4>Preciso pagar algum valor para verificar um boleto?</h4>
-                </div>
-                <div class="faq-answer">Não! O Verifica Boleto é uma ferramenta gratuita para ajudar os usuários a verificar a autenticidade de seus boletos.</div>
+                </button>
+                <div id="faq5" class="faq-answer">Não! O Verifica Boleto é uma ferramenta gratuita para ajudar os usuários a verificar a autenticidade de seus boletos.</div>
             </div>
 
             <div class="card">
-                <div class="faq-question">
+                <button class="faq-question" aria-expanded="false" aria-controls="faq1">
                     <h4>Quais tipos de boleto posso verificar?</h4>
-                </div>
-                <div class="faq-answer">Você pode verificar boletos bancários em PDF ou digitar manualmente a linha digitável e os demais dados. Não aceitamos imagens ou qualquer outro tipo de arquivo.</div>
+                </button>
+                <div id="faq6" class="faq-answer">Você pode verificar boletos bancários em PDF ou digitar manualmente a linha digitável e os demais dados. Não aceitamos imagens ou qualquer outro tipo de arquivo.</div>
             </div>
 
             <div class="card">
-                <div class="faq-question">
+                <button class="faq-question" aria-expanded="false" aria-controls="faq1">
                     <h4>O Verifica Boleto funciona com celular e tablet?</h4>
-                </div>
-                <div class="faq-answer">Sim. O Verifica Boleto é compatível com computadores, tablets e celulares. Basta acessar nosso site no dispositivo que preferir.</div>
+                </button>
+                <div id="faq7" class="faq-answer">Sim. O Verifica Boleto é compatível com computadores, tablets e celulares. Basta acessar nosso site no dispositivo que preferir.</div>
             </div>
 
             <div class="card">
-                <div class="faq-question">
+                <button class="faq-question" aria-expanded="false" aria-controls="faq1">
                     <h4>Paguei um boleto falso/suspeito. E agora?</h4>
-                </div>
-                <div class="faq-answer">Recomendamos entrar em contato com seu banco imediatamente para relatar o incidente e buscar orientação sobre os passos a serem tomados.</div>
+                </button>
+                <div id="faq8" class="faq-answer">Recomendamos entrar em contato com seu banco imediatamente para relatar o incidente e buscar orientação sobre os passos a serem tomados.</div>
             </div>
     </main>
     
@@ -165,12 +178,12 @@
 
                     <a href="#inicio" aria-label="Ir para o início da página" style="text-decoration: none;">
                         <div class="logo">
-                            <img src="./imagens/favicon-bradesco.png" alt="Ícone Bradesco" id="icone-logo" style="height: 70px;">
+                            <img src="./imagens/icone-bradesco.png" alt="Ícone Bradesco" id="icone-logo" style="height: 70px;">
                             <!--<h1>Verifica Boleto</h1>-->
                         </div>
                     </a> 
                    
-                    <a href="index.html" class="link-faq">Verficar Boleto Agora</a>
+                    <a href="index.html" class="link-faq" style="padding-left: 20px;">Verificar Boleto Agora</a>
 
                 </div>
 
@@ -207,12 +220,12 @@
         q.addEventListener("click", () => {
             const answer = q.nextElementSibling;
             answer.style.display = (answer.style.display === "block") ? "none" : "block";
+
+            q.setAttribute("aria-expanded", "true");
+            q.setAttribute("aria-expanded", "false");
         });
         });
-
-        questions.forEach(q => {
-
-});
+        
     </script>
 </body>
 </html>
