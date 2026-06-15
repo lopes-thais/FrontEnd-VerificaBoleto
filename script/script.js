@@ -135,7 +135,7 @@ async function verificarPdf(e) {
     botaoPdf.innerHTML = `
         <div class="loading-btn">
             <div class="spinner-btn"></div>
-            <span>Analisando...</span>
+            <span aria-live="polite">Analisando...</span>
         </div>
     `;
 
@@ -440,6 +440,15 @@ function mostrarResultado(status, dadosUsuario, dadosLinha, score=0, verificacoe
 
         </div>
     `;
+
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+    if (isMobile) {
+        painel.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
 }
 async function verificar() {
 

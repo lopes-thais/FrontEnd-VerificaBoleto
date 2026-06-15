@@ -32,9 +32,6 @@ nav {
         font-family: 'Inter', system-ui, -apple-system, sans-serif;
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
-        color: rgb(121, 4, 4);
-
-        text-decoration: none;
         transition: all 0.3s ease; /* suaviza a mudança */
         display: inline-block;   
     }
@@ -73,7 +70,6 @@ main {
     padding: 0 20px;
 }
 
-
 .banner {
     width: 100%;         /* ocupa toda a largura do container */
     margin: 0;           /* não centraliza sozinho */
@@ -110,8 +106,7 @@ section {
     margin-left: 0;      /* alinha à esquerda do container */
 }
 
-#verificar {
-    
+#verificar {  
     border-width: 2px;
     width: 100%;
     
@@ -130,14 +125,12 @@ section {
     width: 100%;
 }
 
-.botoes,
 #verificar {
     width: 100%;
 }
 
 .botoes button {
     padding: 15px;
-
     border: 2px solid #c01a30;
     background-color: #c01a30;
     color: white;
@@ -147,7 +140,6 @@ section {
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
-   
     box-shadow:  0 -4px 10px #46464662;
     
 }
@@ -178,7 +170,6 @@ section {
     border-top-right-radius: 30px;
 }
 
-
 #verificar input {
     width: 100%;
     padding: 10px;
@@ -200,7 +191,6 @@ input:focus {
 
 .btn-verificar{
     padding: 15px;
-
     border: 2px solid #c01a30;
     background-color: #c01a30;
     color: white;
@@ -227,7 +217,6 @@ input:focus {
 
 #conteudo-pdf {
     text-align: left;
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -443,21 +432,16 @@ aside > img{
 
 footer{
     background-color: rgba(182, 21, 42, 0.404);
-
     margin-top: 80px;
-
     padding: 35px 20px 20px;
 }
 
 .footer-top{
     max-width: 1100px;
-
     margin: 0 auto;
-
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-
     gap: 40px;
 }
 
@@ -481,19 +465,15 @@ footer{
 .link-faq,
 .link-git{
     color: rgb(121, 4, 4);
-
     text-decoration: none;
-
     font-size: 15px;
     font-weight: 500;
-
-    transition: 0.2s;
+    transition: 0.2s; 
 }
 
 .link-faq:hover,
 .link-git:hover{
     color: rgb(241, 19, 56);
-
     transform: translateX(2px);
 }
 
@@ -517,11 +497,8 @@ footer{
 
 .direitos{
     text-align: center;
-
     margin-top: 30px;
-
     color: rgb(121, 4, 4);
-
     font-size: 14px;
     font-weight: 500;
 }
@@ -537,11 +514,8 @@ footer{
 
     .footer-top{
         flex-direction: column;
-
         align-items: center;
-
         text-align: center;
-
         gap: 35px;
     }
 
@@ -551,7 +525,6 @@ footer{
 
     .footer-direita{
         flex-direction: column;
-
         align-items: center;
     }
 
@@ -569,9 +542,7 @@ footer{
 
     .direitos{
         margin-top: 35px;
-
         font-size: 13px;
-
         line-height: 1.5;
     }
 }
@@ -583,7 +554,6 @@ footer{
     color: white;
     cursor: pointer;
     font-weight: 600;
-    
     padding-top: 10px;
 }
 
@@ -659,9 +629,7 @@ footer{
 
     border: 1px solid #ccc;
     border-radius: 10px;
-
     box-sizing: border-box;
-
     display: flex;
     align-items: center;
     gap: 10px;
@@ -678,6 +646,7 @@ footer{
     border-radius: 10px;
     background-color:rgba(182,21,42,0.08);
     margin-bottom: 2px;
+
 }
 
 .resultadoItem p{
@@ -840,16 +809,6 @@ footer{
     margin-right: 10px;
 }
 
-.link-git{   
-    color: rgb(121, 4, 4); 
-    text-decoration: none;
-}
-
-.link-git:hover {
-    color: rgb(241, 19, 56); 
-    transform: scale(1.05); 
-}
-
 .btn-limpar,
 .btn-chat{
     padding: 15px;
@@ -864,9 +823,21 @@ footer{
    
     box-shadow:  0 4px 10px #46464662; 
     display: flex;
-    
     justify-content: center;
     border-radius: 10px;
+}
+
+.btn-chat{
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    margin-top: 10px;
+
+    text-align: center;
+    padding: 13px;
 }
 
 
@@ -889,7 +860,6 @@ footer{
     padding: 12px;
     cursor: pointer;
     font-weight: bold;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -914,18 +884,6 @@ footer{
     font-size: 28px;
     margin-top: 30px;
     margin-bottom: 20px;
-}
-
-.score{
-    flex: 1.2;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    padding: 10px;
-    border: 2px solid #c25664ab;
-    border-radius: 10px;
-    background-color:rgba(182,21,42,0.08);
 }
 
 .scoreChat{
@@ -959,7 +917,6 @@ footer{
     height: 40px;
     margin-top: 9px;
     flex-shrink:0;
-
     align-self: flex-start;
 }
 
@@ -973,30 +930,6 @@ footer{
 .chat{
     flex: 1;
     display: flex;
-}
-
-.btn-chat{
-    width: 100%;
-    height: 100%;
-
-    border: 2px solid #c01a304b;
-    border-radius: 10px;
-    background:white;
-
-    font-size: 16px;
-    font-weight: 600;
-
-    color: rgb(121,4,4);
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content:center;
-    margin-top: 10px;
-
-    text-align: center;
-    padding: 13px;
-    box-shadow: 0 4px 10px #46464662;
 }
 
 .texto-score strong,
@@ -1059,10 +992,23 @@ footer{
     gap: 10px;
 }
 
-.linha-razao-social span{
-    max-width: 350px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+@media (max-width: 768px){
+
+    .linha-razao-social {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .linha-razao-social span{
+        max-width: 100%;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+    }
+
 }
 
+#painelResultado:focus {
+    outline: none;
+}

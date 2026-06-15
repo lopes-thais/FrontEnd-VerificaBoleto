@@ -144,14 +144,14 @@
 
                     </div>
 
-                    <button class="btn-verificar" onclick="verificarPdf(event)">Verificar Boleto</button>
+                    <button class="btn-verificar" onclick="verificarPdf(event)" aria-live="polite">Verificar Boleto</button>
 
                 </div>
             </div>
             
         </section>
 
-        <aside id="painelResultado" role="status" aria-live="polite">
+        <aside id="painelResultado" role="status" aria-live="polite" tabindex="-1">
 
             <h3>Onde encontrar as informações no boleto</h3>
             <p>Veja onde encontrar cada informação importante para o pagamento</p>
@@ -179,7 +179,7 @@
         
         <div>
             <h2>Tecnologia bancária ao seu alcance!</h2>
-            <p>Aplicamos os mesmos algoritmos usados pelos bancos para validar boletos.</p>   
+            <p>Aplicamos regras de validação utilizadas no processamento de boletos para auxiliar na identificação de possíveis fraudes.</p>   
         </div>
 
         <div class="container-cards">
