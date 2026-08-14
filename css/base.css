@@ -1,0 +1,36 @@
+/* VARIÁVEIS GLOBAIS*/
+:root {
+    --cor-primaria: rgb(121, 4, 4);
+    --cor-primaria-clara: #c01a30;
+    --cor-hover: #D21438;
+    --cor-sombra: #46464662;
+    --cor-sombra-vermelha: rgba(182, 21, 42, 0.404);
+    --cor-fundo-suave: rgba(182, 21, 42, 0.08);
+    --cor-borda-suave: #c01a3057;
+
+    --fonte-principal: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fonte-principal);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-color: rgb(255, 255, 255);
+    margin: 0;
+    padding: 0;
+}
+
+/* TIPOGRAFIA GLOBAL */
+h1 {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--cor-primaria);
+    padding-top: 20px;
+}

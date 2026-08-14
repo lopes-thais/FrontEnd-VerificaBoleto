@@ -88,8 +88,6 @@ input:focus {
 
 .btn-verificar{
     padding: 15px;
-
-    border: 2px solid #c01a30;
     background-color: #c01a30;
     color: white;
     flex: 1;
@@ -101,7 +99,6 @@ input:focus {
    
     box-shadow:  0 4px 10px #46464662;
     display: flex;
-    width: 100%;
     justify-content: center;
     border-radius: 10px;
 }
@@ -115,7 +112,7 @@ input:focus {
 
 #conteudo-pdf {
     text-align: left;
-
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -132,7 +129,7 @@ input:focus {
 .area-remover{
     position: absolute;
     right: 10px;
-    height: 30px; /* espaço fixo */
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -162,7 +159,6 @@ input:focus {
 
 .box-upload {
     display: flex;
-    width: 100%;
     flex-direction: column;
     align-items: center;
 
@@ -172,11 +168,11 @@ input:focus {
 
     border-radius: 10px;
     border: 2px solid #c01a43b2;
-    padding-top: 5px;
+    padding-top: 20px;
     box-shadow: 0 0 5px rgba(182, 21, 42, 0.404);
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    padding-bottom: 25px;
 }
-
 
 .info-arquivo{
     position: relative;
@@ -207,7 +203,7 @@ input:focus {
 }
 
 #icone-upload {
-    width: 20px;
+    width: 30px;
     display: inline-block;
 }
 
@@ -218,4 +214,74 @@ input:focus {
     height: 18px;
     margin-top: 4px;
     margin-bottom: 10px;
+}
+
+.campo-autocomplete {
+    position: relative;
+    width: 100%;
+}
+
+.lista-sugestoes {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 10px 10px 10px 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: none;
+
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc transparent;
+}
+
+.lista-sugestoes li {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: left;
+}
+
+.lista-sugestoes li:last-child {
+    border-bottom: none;
+}
+
+.lista-sugestoes li:hover,
+.lista-sugestoes li.focado{
+    background-color: #f5f5f5;
+    color: #B6152A;
+    font-weight: 600;
+}
+
+.mensagem-erro {
+    color: #d9534f;
+    font-size: 13px;
+    display: block;
+    margin-top: 4px;
+}
+
+.lista-sugestoes::-webkit-scrollbar {
+    width: 5px;
+}
+
+.lista-sugestoes::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.lista-sugestoes::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 10px;
+}
+
+.lista-sugestoes::-webkit-scrollbar-thumb:hover {
+    background-color: #B6152A;
 }

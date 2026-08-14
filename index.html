@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verifica Boleto</title>
+    <title>BoletoVerify</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/style-chat.css">
+
+    <!-- estilo -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/componentes.css">
+    <link rel="stylesheet" href="css/verificacao.css">
+    <link rel="stylesheet" href="css/formulario.css">
 
     <link rel="icon" type="image/png" href="./imagens/favicon-bradesco.png">
 
@@ -64,14 +69,32 @@
                     
                 <div class="mensagem-erro" id="erroCodigo" aria-live="polite"></div>
 
+            <!--
+            <label for="codigoBanco">Selecione o banco emissor: </label>
+            <input type="text" id="codigoBanco" placeholder="Digite o código ou nome do banco..." autocomplete="off">
 
-            <label for="cpfCnpj">Digite o CPF/CNPJ do beneficiário:</label>
-            <input 
-                type="text" 
-                id="cpfCnpj"
-                placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-90"  
-            />            
-            <div class="mensagem-erro" id="erroCpf" aria-live="polite"></div>
+            <div class="mensagem-erro" id="erroBanco" aria-live="polite"></div>
+
+            -->
+
+                    <label for="buscaBanco">Selecione o banco emissor:</label>
+
+                    <!-- Container para controlar o posicionamento da lista suspensa -->
+                    <div class="campo-autocomplete">
+                        <input
+                                type="text"
+                                id="buscaBanco"
+                                placeholder="Digite o código ou nome do banco..."
+                                autocomplete="off"
+                        >
+
+                        <!-- Campo oculto para armazenar apenas o código do banco selecionado (ex: "341") -->
+                        <input type="hidden" id="codigoBanco" name="codigoBanco">
+
+                        <!-- Lista suspensa que aparecerá automaticamente ao digitar -->
+                        <ul id="listaSugestoes" class="lista-sugestoes"></ul>
+                    </div>
+                    <span id="erroBanco" class="mensagem-erro"></span>
 
             <label for="vencimento">Digite a data de vencimento:</label>
             <input 
@@ -79,7 +102,7 @@
                 id="vencimento"
                 placeholder="Ex: dd/mm/aaaa" 
             />
-            <div class="mensagem-erro" id="erroVencimento" aria-live="polite"></div>
+                    <div class="mensagem-erro" id="erroVencimento" aria-live="polite"></div>
 
             <label for="valorBoletoInput">Digite o valor do boleto:</label>
             <input 
@@ -118,28 +141,24 @@
                         
                     </label>        
                     
-                    <h3 style="margin-top: 4px;">Dados extraídos:</h3>
+                    <h3 style=" margin-top: 4px">Dados extraídos:</h3>
 
                     <div id="resultadoLista" style="display:block;">
 
                         <div class="linhaResultadoExtraido">
                             <strong>Linha digitável:</strong>
-                            <span id="linhaDigitavel"></span>
+                            <span id="linhaDigitavel">Ex: 00190.00009 02626.560004 00000.000000 1 00000000000000</span>
                         </div>
 
-                        <div class="linhaResultadoExtraido">
-                            <strong>Valor:</strong>
-                            <span id="valorBoletoResultado"></span>
+
+                        <div class="linhaValorExtraido">
+                            <strong>Quantidade de valores encontrados:</strong>
+                            <span id="valorBoletoResultado">Ex: 20</span>
                         </div>
 
-                        <div class="linhaResultadoExtraido">
-                            <strong>Vencimento:</strong>
-                            <span id="vencimentoResultado"></span>
-                        </div>
-
-                        <div class="linhaResultadoExtraido">
-                            <strong>CNPJ Beneficiário:</strong>
-                            <span id="cnpj"></span>
+                        <div class="linhaValorExtraido">
+                            <strong>Quantidade de datas encontradas:</strong>
+                            <span id="vencimentoResultado">Ex: 20</span>
                         </div>
 
                     </div>
@@ -151,11 +170,11 @@
             
         </section>
 
-        <aside id="painelResultado" role="status" aria-live="polite" tabindex="-1">
+        <aside id="painelResultado" role="search" aria-live="polite" tabindex="-1">
 
             <h3>Onde encontrar as informações no boleto</h3>
-            <p>Veja onde encontrar cada informação importante para o pagamento</p>
-                       
+            <!--<p style="font-size: 18px">Confira onde encontrar cada informação</p> -->
+
             <img src="./imagens/banner-informacoes.png" alt="Exemplo mostrando onde encontrar as informações no boleto">           
 
             <div class="dica">   
@@ -179,7 +198,7 @@
         
         <div>
             <h2>Tecnologia bancária ao seu alcance!</h2>
-            <p>Aplicamos regras de validação utilizadas no processamento de boletos para auxiliar na identificação de possíveis fraudes.</p>   
+            <p>Aplicamos regras matemáticas utilizadas no processamento de boletos para auxiliar na identificação de possíveis dados divergentes.</p>
         </div>
 
         <div class="container-cards">
@@ -187,7 +206,7 @@
             <div class="card">
                 <img src="./imagens/icone-card-seguranca.PNG" alt="ícone de segurança">
                 <h4>Validação completa</h4>
-                <p>Verificamos código de barras, CNPJ, banco emissor, valor e data de vencimento em uma única análise.</p>
+                <p>Verificamos banco emissor, valor e data de vencimento em uma única análise.</p>
             </div>
 
             <div class="card">
@@ -199,7 +218,7 @@
             <div class="card">
                 <img src="./imagens/icone-card-raio.png" alt="ícone de raio">
                 <h4>Resultado instantâneo</h4>
-                <p>Análise em segundos com score de confiança detalhado por verificação.</p>
+                <p>Análisamos os dados em segundos e mostramos o resultado detalhado.</p>
             </div>
 
             <div class="card">
@@ -207,7 +226,7 @@
                 <img src="./imagens/icone-card-fraude.png" alt="ícone de fraude">
                 
                 <h4>Anti-fraude</h4>
-                <p>Detecta divergências entre os dados informados e os codificados no boleto.</p>
+                <p>Detectamos divergências entre os dados informados e os codificados no boleto.</p>
             </div>
 
         </div>
@@ -224,7 +243,7 @@
                     
                     <a href="#inicio" aria-label="Ir para o início da página" style="text-decoration: none;">
                         <div class="logo">
-                            <img src="./imagens/icone-bradesco.png" alt="Ícone Bradesco" id="icone-logo" style="height: 70px;">
+                            <img src="./imagens/icone-bradesco.png" alt="Ícone Bradesco" class="icone-logo" style="height: 70px;">
                             <!--<h1>Verifica Boleto</h1>-->
                         </div>
                     </a>                    
@@ -246,7 +265,7 @@
                             GitHub FrontEnd
                         </a>
 
-                        <a href="https://github.com/geooogab/VerificaBoleto"
+                        <a href="https://github.com/lopes-thais/VerificaBoleto"
                         class="link-git">
                             GitHub BackEnd
                         </a>
@@ -258,11 +277,12 @@
             </div>
 
             <p class="direitos">
-                Bradesco VerificaBoleto-2026 - Todos os direitos reservados.
+                VerificaBoleto-2026 - Todos os direitos reservados.
             </p>
 
         </footer>
 
+    <!-- área Chat
     <button id="btnChatbot" aria-label="Abrir Chat de Dúvidas">
         <img src="./imagens/icone-chat.PNG" alt="" id="icone-chat">
     </button>
@@ -302,7 +322,15 @@
             </div>
     </div>
 
-        <script src="script/script.js"></script>
-        <script src="script/script-chat.js"></script>
+    -->
+
+    <script src="script/api.js"></script>
+    <script src="script/mascaras.js"></script>
+    <script src="script/ui.js"></script>
+    <script src="script/upload-pdf.js"></script>
+    <script src="script/resultado.js"></script>
+    <script src="script/verificacao-manual.js"></script>
+    <script src="script/verificacao-pdf.js"></script>
+
 </body>
 </html>
