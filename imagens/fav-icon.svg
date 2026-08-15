@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="aeroGlassRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF334B" />
+      <stop offset="50%" stop-color="#B6152A" />
+      <stop offset="100%" stop-color="#7A0010" />
+    </linearGradient>
+
+    <linearGradient id="aeroCheck" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00FF87" />
+      <stop offset="100%" stop-color="#60EFFF" />
+    </linearGradient>
+
+    <linearGradient id="aeroHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.0" />
+    </linearGradient>
+
+    <filter id="softGlowRed" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#B6152A" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <g transform="translate(10, 10)" filter="url(#softGlowRed)">
+    <rect x="10" y="5" width="85" height="90" rx="28" fill="url(#aeroGlassRed)" />
+    <path d="M 10 33 C 10 33 35 15 95 25 L 95 33 C 95 18 55 5 10 5 Z" fill="url(#aeroHighlight)" />
+
+    <rect x="28" y="32" width="48" height="4" rx="2" fill="#FFFFFF" opacity="0.9" />
+    <rect x="28" y="42" width="32" height="4" rx="2" fill="#FFFFFF" opacity="0.75" />
+    <rect x="28" y="52" width="40" height="4" rx="2" fill="#FFFFFF" opacity="0.75" />
+
+    <circle cx="72" cy="68" r="20" fill="#330005" opacity="0.3" />
+    <circle cx="70" cy="66" r="18" fill="url(#aeroCheck)" stroke="#FFFFFF" stroke-width="2.5" />
+
+    <path d="M 60 66 L 67 73 L 80 58"
+          fill="none"
+          stroke="#005C29"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+  </g>
+</svg>
