@@ -1,42 +1,69 @@
-# Verifica Boleto
-## Sobre o projeto
-O Verifica Boleto é uma ferramenta desenvolvida para auxiliar na identificação de possíveis golpes envolvendo boletos bancários falsos.
+# VerificaBoleto
+## O problema
 
-No Brasil, o boleto continua sendo um dos meios de pagamento mais utilizados.
-Criminosos aproveitam recursos tecnológicos para adulterar documentos, alterando dados como beneficiário, valor ou linha digitável.
-Muitas vítimas realizam o pagamento sem perceber as inconsistências, transferindo o valor diretamente para contas controladas por golpistas.
+Segundo dados do G1, entre 2024 e 2025 cerca de 24 milhões de pessoas foram vítima de golpes envolvendo boletos bancários ou pix. 
+Nesse mesmo período, o prejuízo agregado gerado por esse tipo de golpe foi de quase R$29 bilhões.
+Esses números evidenciam a necessidade urgente de medidas capazes de mitigar a incidência desse tipo de fraude. Entre elas, destacam-se os golpes envolvendo boletos bancários, nos quais o criminoso pode criar um documento visualmente idêntico ao original, mas alterar os dados associados à linha digitável para direcionar o pagamento à sua própria conta. Como a vítima muitas vezes não confere essas informações antes de efetuar o pagamento, o valor pode ser destinado diretamente ao golpista, mesmo que o documento apresentado aparente ser legítimo.
 
-## Links
-* Deploy no Render: https://frontend-verificaboleto.onrender.com
-* Repositório BackEnd: https://github.com/geooogab/VerificaBoleto
+## O sistema
+Pensando nesse contexto, desenvolvi o Boleto Verify. O intuito do sistema é ser uma ferramenta de apoio na verificação de Boletos Bancários.
 
-## Objetivo
-
-O sistema foi desenvolvido como uma ferramenta de apoio à prevenção desse tipo de fraude, auxiliando usuários na identificação de informações divergentes presentes em boletos bancários.
+O usuário insere os principais dados, ou o boleto em PDF, e o sistema utiliza as regras de cálculo de dígitos verificadores dos boletos bancários, incluindo os módulos 10 e 11, para verificar se a linha digitável é matematicamente válida, calcular o DV geral e extrair campos como banco emissor, fator de vencimento e valor.
+Por fim, os dados extraídos são comparados com os informados e o sistema retorna para o usuário se existe alguma divergência e mostra quais.
+Auxiliando assim, a qualquer pessoa verificar um boleto e encontrar inconsistências mesmo sem conhecimentos prévios sobre como encontrar cada campo na linha.
 
 # Como funciona
 O usuário pode:
 
-* Informar os dados manualmente;
-* Enviar um arquivo PDF contendo o boleto.
+- Informar os dados manualmente;
+- Enviar um arquivo PDF contendo o boleto.
 
 O sistema realiza:
 
-Extração dos dados do documento (quando enviado em PDF);
+-Extração dos dados do documento (quando enviado em PDF);
 
-Consulta à base de dados simulada; 
+-Extração dos dados presentes na linha digitável; 
 
-Comparação dos dados informados com os dados cadastrados; 
+-Comparação dos dados informados com os dados cadastrados na linha; 
 
-Geração de um score de risco; 
+-Classificação dos dados do boleto como: 
 
-Classificação do boleto como: 
-
-* ✅ Seguro
-* ⚠️ Suspeito
-* ❌ Fraude
+* ✅ Dados Consistentes
+* ⚠️ Dados Inconsistentes
 
 Além disso, são apresentados os campos divergentes identificados durante a análise.
+
+## Tecnologias Utilizadas
+
+## Front-End
+* HTML5
+* CSS3
+* JavaScript
+
+## Back-End
+* Java 21
+* Spring Boot
+
+## Infraestrutura
+
+* Render
+* GitHub/develop
+
+## Organização
+
+A organização do desenvolvimento do projeto foi feita através de Kanban no GitHub Projects. 
+
+Além disso, foram feitos levantamento de regras de negócio, requisitos, funcionalidades, e prototipagem das telas pelo Whimsical e Figma.
+
+# Funcionalidades
+
+* Extração de dados do arquivo PDF do boleto via PDFBox
+* Verificação de boletos por meio da linha digitável;
+* Upload e extração automática de informações de boletos em PDF;
+* Extração de data de vencimento, banco e valor do boleto a partir da linha digitável;
+* Exibição dinâmica dos resultados da análise;
+* Comparação visual entre dados informados e dados extraídos;
+* Exibição comparativa dos dados divergentes;
 
 ## Tecnologias Utilizadas
 
@@ -49,11 +76,6 @@ Além disso, são apresentados os campos divergentes identificados durante a an�
 * Java
 * Spring Boot
 
-## Persistência de Dados
-
-* PostgreSQL
-* Spring Data JPA
-
 ## Infraestrutura
 
 * Render
@@ -61,7 +83,7 @@ Além disso, são apresentados os campos divergentes identificados durante a an�
 
 ## Organização
 
-A organização do desenvolvimento do projeto foi feita através de Kanban no Trello. 
+A organização do desenvolvimento do projeto foi feita através de Kanban no GitHub Projects. 
 
 Além disso, foram feitas levantamento de funcionalidades e requisitos e prototipagem das telas pelo Whimsical e Figma.
 
@@ -138,28 +160,30 @@ Mensagens dinâmicas utilizam `aria-live="polite"`, permitindo que leitores de t
 ## Imagens do sistema
 
 ### Tela inicial
-<img width="875" height="399" alt="image" src="https://github.com/user-attachments/assets/fa66a1fc-134b-4f43-b8f3-bea59a391e45" />
+<img width="1307" height="632" alt="image" src="https://github.com/user-attachments/assets/862ea8d3-e1cb-47df-8a41-f86befe8aa9c" />
+
 
 ### Tela de formulário para preechimento manual de dados do boleto
-<img width="875" height="405" alt="image" src="https://github.com/user-attachments/assets/37f33aee-e7c3-4fad-a657-3d63f53857ac" />
+<img width="1307" height="632" alt="image" src="https://github.com/user-attachments/assets/2beac963-a46c-4829-9bae-3950f49fb185" />
 
 ### Tela de upload de arquivo PDF do boleto
-<img width="858" height="405" alt="image" src="https://github.com/user-attachments/assets/2f82d613-ba83-44bc-899f-70e3ec71a40d" />
+<img width="1291" height="630" alt="image" src="https://github.com/user-attachments/assets/78690009-5792-4f06-8ebc-7189a55a474e" />
 
-### Tela de ChatBot
-<img width="886" height="411" alt="image" src="https://github.com/user-attachments/assets/3b67f298-dc66-44b2-99a0-f137e3df7489" />
-
-### Tela de resultado "Boleto Falso"
+### Tela de resultado "Dados Consistentes"
 <img width="863" height="410" alt="image" src="https://github.com/user-attachments/assets/a02ee9d4-dec4-440f-9a4b-e94c0af7bc9b" />
 
-### Tela de resultado "Boleto Suspeito"
-<img width="866" height="408" alt="image" src="https://github.com/user-attachments/assets/0d66531b-ca1e-4267-bf15-88360676c8f7" />
+### Tela com dados preechidos manualmente e resultado "Dados Inconsistentes"
+<img width="1287" height="626" alt="image" src="https://github.com/user-attachments/assets/f49ec8cc-592a-4003-8d47-3927c69489d6" />
 
-### Tela de resultado "Boleto Seguro"
-<img width="875" height="411" alt="image" src="https://github.com/user-attachments/assets/d0bc2a75-2cde-4fba-b216-992da65c8b91" />
+### Tela PDF anexado, dados extraídos e resultado
+<img width="1280" height="635" alt="image" src="https://github.com/user-attachments/assets/532685d9-1a7e-446b-91ff-baadd6866fe2" />
+
+### Tela mostrando alguns itens da lista de bancos e resultado com um dado consistente
+<img width="1272" height="630" alt="image" src="https://github.com/user-attachments/assets/96389e25-13e4-42a2-b4f6-93edabc33655" />
 
 ### Exemplos de mensagens de erro
-<img width="611" height="582" alt="image" src="https://github.com/user-attachments/assets/5861f820-f212-4d8f-9372-9f07424dbdfd" /> <img width="602" height="571" alt="image" src="https://github.com/user-attachments/assets/94a319bd-d646-4f52-97f3-9e04fad3b22c" />
+<img width="586" height="571" alt="image" src="https://github.com/user-attachments/assets/ea1a5471-ba28-41e2-a422-cb42a79f93c5" /> <img width="583" height="567" alt="image" src="https://github.com/user-attachments/assets/d468ea4f-f528-471b-b6b4-b2bdda18effe" />
+
 
 
 
