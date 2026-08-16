@@ -100,7 +100,7 @@ async function verificar() {
         };
 
         const resposta = await fetch(
-            "http://localhost:8081/boleto/verificar",
+            "https://verificaboleto-m9zt.onrender.com/boleto/verificar",
             {
                 method: "POST",
                 headers: {

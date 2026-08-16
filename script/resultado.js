@@ -31,14 +31,17 @@ function mostrarResultado(status, mensagemBack, verificacoes = []) {
             ? "./imagens/icone-dado-ok.PNG"
             : "./imagens/icone-dado-divergente.PNG";
 
+        const eCampoData = v.campo && v.campo.toLowerCase().includes("vencimento");
         const textoIcone = v.ok ? "Dado confere" : "Dado divergente";
 
-        let textoComparacao = `Cadastrado: ${v.valorExtraido}`;
+        const valorExtraidoExibicao = eCampoData ? formatarData(v.valorExtraido) : v.valorExtraido;
+        const valorInformadoExibicao = eCampoData ? formatarData(v.valorInformado) : v.valorInformado;
+
+        let textoComparacao = `Cadastrado: ${valorExtraidoExibicao}`;
 
         if (v.valorInformado) {
-            textoComparacao += ` <br> Informado: ${v.valorInformado}`;
+            textoComparacao += ` <br> Informado: ${valorInformadoExibicao}`;
         }
-
         if (v.mensagem) {
             textoComparacao += `<br> ${v.mensagem}`;
         }
@@ -86,4 +89,19 @@ function mostrarResultado(status, mensagemBack, verificacoes = []) {
             block: "start"
         });
     }
+}
+
+// Função para converter formato de data para dia/mes/ano
+function formatarData(dataString) {
+    if (!dataString) return "";
+
+    // Lida com datas que usam hífen (-) ou barra (/)
+    const partes = dataString.split(/[-/]/);
+
+    if (partes.length === 3 && partes[0].length === 4) {
+        const [ano, mes, dia] = partes;
+        return `${dia.padStart(2, '0')}/${mes.padStart(2, '0')}/${ano}`;
+    }
+
+    return dataString;
 }

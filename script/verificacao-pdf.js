@@ -27,7 +27,7 @@ async function verificarPdf(e) {
         const formData = new FormData();
         formData.append("arquivo", arquivo);
 
-        const resposta = await fetch("http://localhost:8081/boleto/pdf", {
+        const resposta = await fetch("https://verificaboleto-m9zt.onrender.com/boleto/pdf", {
             method: "POST",
             body: formData
         });

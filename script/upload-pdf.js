@@ -54,7 +54,7 @@ input.addEventListener("change", async () => {
 
         console.log("ENVIANDO PDF:", arquivo);
 
-        const resposta = await fetch("http://localhost:8081/boleto/pdf/extrair", {
+        const resposta = await fetch("https://verificaboleto-m9zt.onrender.com/boleto/pdf/extrair", {
             method: "POST",
             body: formData
         });
